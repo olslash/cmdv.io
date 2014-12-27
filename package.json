@@ -1,0 +1,20 @@
+{
+  "name": "paste-clone",
+  "version": "1.0.0",
+  "description": "its like pastebin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon --harmony server",
+    "build": "browserify -t [reactify --es6] app.jsx > build/app.js"
+  },
+  "author": "Mitch Robb",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.4.2",
+    "fluxxor": "^1.5.1",
+    "mongoose": "^3.8.21",
+    "react": "^0.12.2",
+    "react-router": "^0.11.6"
+  }
+}
