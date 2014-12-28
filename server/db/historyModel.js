@@ -6,9 +6,8 @@ var historySchema = mongoose.Schema({
 });
 
 // add a new key to the history document that contains existingKey.
-// returns a promise.
-historySchema.statics.addRevision = function(existingKey, newKey) {
-  console.log('adding a revision of', existingKey, ': ', newKey);
+historySchema.statics.addRevision = function(newKey, existingKey) {
+    existingKey || (existingKey = '');
     return this.updateAsync({revisions: {$in: [existingKey]}},
         {$addToSet: {revisions: newKey}},
         {upsert: true});

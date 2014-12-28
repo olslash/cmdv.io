@@ -10,22 +10,53 @@ var pasteSchema = mongoose.Schema({
   content: String
 });
 
-pasteSchema.statics.generateUniqueKey = function(length) {
+pasteSchema.statics.savePaste = function (content, existingKey) {
+  var self = this;
+
+  var verifyExistingKey = self.findAsync({key: existingKey})
+  // does existingKey really exist?
+    .then(function (key) {
+      var verifiedKey = existingKey;
+
+      if (key.length === 0) {
+        verifiedKey = null;
+      } // not provided, or it didn't exist
+
+      return verifiedKey;
+    });
+
+  function generateNewKey() {
+    return self._generateUniqueKey(config.keyLength);
+  }
+
+  return Promise.join(verifyExistingKey, generateNewKey(), function (verifiedExistingKey, newKey) {
+    var newPaste = new self({key: newKey, content: content});
+
+    return newPaste.saveAsync()
+      .then(function (paste) {
+        return History.addRevision(newKey, verifiedExistingKey);
+      }).then(function() {
+        return newKey;
+      });
+  });
+};
+
+pasteSchema.statics._generateUniqueKey = function(length) {
   return new Promise(function(resolve, reject) {
     var newKey = helpers.generateUniqueKey(length);
 
-    this.verifyKeyIsUnique(newKey)
+    this._verifyKeyIsUnique(newKey)
       .then(function () {
         resolve(newKey);
       })
 
       .catch(function (err) {
-        return this.generateUniqueKey(length);
+        return this._generateUniqueKey(length);
       });
   }.bind(this));
 };
 
-pasteSchema.statics.verifyKeyIsUnique = function(key) {
+pasteSchema.statics._verifyKeyIsUnique = function(key) {
   return new Promise(function (resolve, reject) {
     this.findAsync({key: key}).then(function (key) {
       if (key.length === 0) {
@@ -35,31 +66,6 @@ pasteSchema.statics.verifyKeyIsUnique = function(key) {
       }
     });
   }.bind(this));
-};
-
-pasteSchema.statics.savePaste = function(content, existingKey) {
-  var self = this;
-
-  var verifyExistingKey = self.findAsync({key: existingKey}) // does existingKey really exist?
-    .then(function (key) {
-      var verifiedKey = existingKey;
-      if (key.length === 0) {
-        verifiedKey = null;
-      } // not provided, or it didn't exist
-      return Promise.resolve(verifiedKey);
-    });
-
-  function generateNewKey() {
-    return self.generateUniqueKey(config.keyLength);
-  }
-
-  Promise.join(verifyExistingKey, generateNewKey(), function(verifiedExistingKey, newKey) {
-    var newPaste = new self({key: newKey, content: content});
-    return newPaste.saveAsync()
-      .then(function () {
-        return History.addRevision(verifiedExistingKey, newKey)
-      });
-  });
 };
 
 
