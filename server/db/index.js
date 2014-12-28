@@ -13,7 +13,15 @@ var Paste = require('./pasteModel');
 var History = require('./historyModel');
 
 module.exports = {
-  getByKey(key) {
+  getRevisionHistoryForKey: function(key) {
+    return History.findAsync({revisions: key})
+  },
 
+  savePaste: function(content, existingKey) {
+    return Paste.savePaste(content, existingKey);
+  },
+
+  generateUniqueKey: function(length) {
+    return Paste.generateUniqueKey(length);
   }
 };

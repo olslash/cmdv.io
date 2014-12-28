@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^2.4.2",
+    "body-parser": "^1.10.0",
+    "express": "^4.10.6",
     "fluxxor": "^1.5.1",
     "mongoose": "^3.8.21",
     "react": "^0.12.2",
