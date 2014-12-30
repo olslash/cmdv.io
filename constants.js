@@ -9,5 +9,7 @@ module.exports = {
   SAVE_PASTE: 'SAVE_PASTE', // save a paste, either with ID as a revision, or without as a new revision
   PASTE_SAVING: 'PASTE_SAVING', // saving a particular paste
   PASTE_SAVED: 'PASTE_SAVED', // particular paste has been saved
-  PASTE_SAVE_FAILED: 'PASTE_SAVE_FAILED' // saving of a particular paste failed
+  PASTE_SAVE_FAILED: 'PASTE_SAVE_FAILED', // saving of a particular paste failed
+
+  PAGE_LOADED: 'PAGE_LOADED' // user has navigated to a URL
 };

@@ -1,24 +1,19 @@
 var React = require('react'),
-  // Navigation = require('./pages/Navigation.jsx'),
-  DocumentTitle = require('react-document-title'),
-  { RouteHandler } = require('react-router'),
-  { PropTypes } = React;
+    Fluxxor = require('Fluxxor'),
+    constants = require('./constants'),
+    actions = require('./actions/actions'),
+    stores = require('./stores'),
+    Application = require('./components/Application.jsx');
 
-var App = React.createClass({
-  propTypes: {
-    params: PropTypes.object.isRequired,
-    query: PropTypes.object.isRequired
-  },
 
-  render() {
-    return ( 
-      <DocumentTitle title = 'PasteClone'>
-        <div className='App'>
-          <RouteHandler { ...this.props }/>
-        </div>
-      </DocumentTitle>
-    );
-  }
+var flux = new Fluxxor.Flux(stores, actions);
+//window.flux = flux;
+
+// log dispatches
+flux.on('dispatch', function (type, payload) {
+  console.log("[Dispatch]", type, payload);
 });
 
-module.exports = App;
+flux.actions.pageLoaded(document.location.pathname);
+React.render(<Application flux={flux} />, document.getElementById("app"));
+
