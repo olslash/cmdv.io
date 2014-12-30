@@ -7,7 +7,7 @@ var db = require('../db'), // fixme: don't pretend this is sync
 module.exports =  pasteRouter = express.Router();
 
 //pasteRouter.param('key', /^[a-zA-Z]+$/);
-pasteRouter.use(bodyParser.json());
+pasteRouter.use(bodyParser.text());
 
 //pasteRouter.get('/test', function (req, res) {
 ////  db.getRevisionHistoryForKey('ragupuyo').then(function(key) {
@@ -42,7 +42,7 @@ pasteRouter.post('/', function (req, res) {
   // pasteID: the ID of the paste just saved
   // revisions: array of revisions related to this ID
 
-  var content = JSON.stringify(req.body);
+  var content = req.body;
   db.savePaste(content).then(function(data) {
     res.json(data);
   }).catch(function(err) {
@@ -53,7 +53,7 @@ pasteRouter.post('/', function (req, res) {
 pasteRouter.post('/:key', function (req, res) {
   // 'key' is the existing key to associate this new revision with
   var key = req.params.key.toLowerCase();
-  var content = JSON.stringify(req.body);
+  var content = req.body;
   db.savePaste(content, key).then(function (data) {
     res.json(data);
   })
