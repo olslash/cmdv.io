@@ -6,14 +6,14 @@ var FluxMixin = Fluxxor.FluxMixin(React),
 
 // Application component
 module.exports = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin('NavigationStore', 'PasteStore')],
+  mixins: [FluxMixin, StoreWatchMixin('NavigationStore', 'PasteLoadingStore', 'PasteStore')],
 
   getStateFromFlux() {
     return {
       currentKey: this.getFlux().store('NavigationStore').currentKey,
       currentLanguage: this.getFlux().store('NavigationStore').currentLanguage,
-      loading: this.getFlux().store('PasteStore').isLoading,
-      saving: this.getFlux().store('PasteStore').isSaving
+      loading: this.getFlux().store('PasteLoadingStore').isLoading(),
+      pastes: this.getFlux().store('PasteStore').getPastes()
     };
   },
 
@@ -25,9 +25,12 @@ module.exports = React.createClass({
     return (
         <div id="paste">
         {this.state.loading && "LOADING!"}
-        {this.getFlux().store('PasteStore').pastes[this.state.currentKey]}
+        {this.state.pastes.get(this.state.currentKey)}
+
           test
         </div>
     );
   }
 });
+
+//jumomito

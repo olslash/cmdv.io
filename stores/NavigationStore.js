@@ -17,7 +17,7 @@ module.exports = Fluxxor.createStore({
     var path = payload.path;
 
 
-    var routeRegex = /^\/([a-zA-Z]+)\.?([a-zA-Z]*)$/;
+    var routeRegex = /^\/([a-zA-Z]+)\.?([a-zA-Z]*)$/; // '/(key).(language)?'
     var routeComponents = path.match(routeRegex);
 
     if(routeComponents !== null) {

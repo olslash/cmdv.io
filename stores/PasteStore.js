@@ -3,22 +3,25 @@ var Fluxxor = require('Fluxxor'),
     constants = require('../constants');
 
 module.exports = Fluxxor.createStore({
-    initialize: function() {
-//        this.currentPaste = ''; // key of current paste that the UI should be displaying
-        this.pastes = Immutable.Map(); // pastes that have been retrieved from the server
+  initialize: function() {
+    this.pastes = Immutable.Map(); // pastes that have been retrieved from the server
 
-        this.bindActions(
-            constants.PASTE_LOADED, this.o_nPasteLoaded
-        );
-    },
+    this.bindActions(
+      constants.PASTE_LOADED, this._onPasteLoaded
+    );
+  },
 
-    _emitChange() {
-        this.emit('change')
-    },
+  getPastes() {
+    return this.pastes;
+  },
 
-    _onPasteLoaded(payload) {
-        this.pastes[payload.pasteID] = this.pastes.set(payload.pasteID, payload.pasteContent);
+  _emitChange() {
+    this.emit('change')
+  },
 
-        this._emitChange();
-    }
+  _onPasteLoaded(payload) {
+    this.pastes = this.pastes.set(payload.pasteID, payload.pasteContent);
+
+    this._emitChange();
+  }
 });

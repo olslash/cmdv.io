@@ -15,15 +15,15 @@ module.exports = Fluxxor.createStore({
     );
   },
 
-  isSaving() {
+  isLoading() {
     return this._loadingPasteIDs.size > 0;
   },
 
-  getSavingPastes() {
+  getLoadingPastes() {
     return this._loadingPasteIDs;
   },
 
-  getFailedSavingPastes() {
+  getFailedLoadingPastes() {
     return this._failedLoadingPasteIDs;
   },
 
