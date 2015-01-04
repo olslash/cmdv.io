@@ -109,11 +109,12 @@ var a = function() {
         var delay;
         target.addEventListener('mouseenter', function(e) {
             delay = window.setTimeout(function() {
-                console.log('ok');
+                var x = e.x || e.clientX;
+                var y = e.y || e.clientY;
                 tooltip.textContent = target.getAttribute('data-help');
                 tooltip.style.visibility = "visible";
-                tooltip.style.top = (e.y + 20) + 'px';
-                tooltip.style.left = (e.x - 14) + 'px';
+                tooltip.style.top = (y + 20) + 'px';
+                tooltip.style.left = (x - 14) + 'px';
             }, 1000);
         });
 
