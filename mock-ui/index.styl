@@ -4,7 +4,10 @@ html, body
 
 body
   margin: 0
+
   color: white
+  font-family: "Courier New", Courier, monospace
+
 *, *:before, *:after
   -moz-box-sizing: border-box
   -webkit-box-sizing: border-box
@@ -14,37 +17,50 @@ body
   height: 100%
 
 
+
+
 #sidebar
-  background-color: dark-grey
   height: 20%
 
+  background-color: dark-grey
+  border-right: 1px solid rgb(20, 20, 20)
+
 #paste-content
-  background-color: light-grey
   height: 80%
 
+  background-color: light-grey
+
   textarea
-    color: white
-    background-color: inherit
     resize: none
-    border: 0px
     height: 100%
     width: 100%
+
+    color: white
+    background-color: inherit
+    border: 0px
+    font-family: inherit
+    font-size: 1em
+
     &:focus
       outline: none
 
-
-
 #sidebar, #paste-content
-  border: 1px solid black
   overflow: scroll
 
 #footer
-  background-color: med-grey
   position: fixed
+  display: table // to vertical align content
   bottom: 0
   left: 0
   width: 100%
   height: 2em
+
+  background-color: med-grey
+  border-top: 1px solid rgb(20, 20, 20)
+
+  .footer-content
+    display: table-cell
+    vertical-align: middle
 
 @media screen and (min-width: 47.5em )
   #sidebar, #paste-content

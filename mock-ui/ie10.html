@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>cmdv</title>
+    <meta name="description" content="paste stuff here">
+    <link rel="stylesheet" href="ie10.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="explain">
+    some description of this button
+</div>
+<div id="main-container">
+
+    <section id="paste-content">
+
+                <textarea autocomplete="off" autocapitalize="none" spellcheck="false" autofocus>
+var a = function() {
+    alert('hi');
+};
+                </textarea>
+
+    </section>
+    <nav id="sidebar">
+        <div class="buttons-container">
+            <img class="icon help" data-help="create a new document, starting a new revision chain." src="icon-new.png">
+            <img class="icon help" data-help="clone the current paste, starting a new revision chain." src="icon-clone.png">
+            <img class="icon help" data-help="save the current paste (assigns a key and disables further editing)." src="icon-save.png">
+        </div>
+        <div class="sidebar-item">
+            <h1>REVISIONS</h1>
+            <ul class="revisions">
+                <li>0 | somemnemonic</li>
+                <li class="active"><span class="num">1 | </span>othrmnemonic</li>
+                <li class="unsaved"><span class="num">2 | </span>(unsaved)</li>
+            </ul>
+        </div>
+
+        <div class="sidebar-item">
+            <h1>SAVED PASTES</h1>
+            <ul class="revisions">
+                <li>0 | somemnemonic <img src="icon-fail.png"></li>
+                <li>1 | othrmnemonic <img src="ajax-loader.gif"></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<footer id="footer">
+    <div class="footer-content">
+        <span class="lang-select">Javascript</span>
+        <span class="detected">(detected)</span>
+    </div>
+
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+<!--tab to insert two spaces-->
+<script>
+    var el = document.getElementsByTagName('textarea')[0];
+    el.addEventListener('keydown', function (e) {
+        if (e.keyCode === 9) { // tab was pressed
+            // get caret position/selection
+            var start = this.selectionStart;
+            var end = this.selectionEnd;
+
+            var value = this.value;
+
+            // set textarea value to: text before caret + tab + text after caret
+            this.value = value.substring(0, start)
+            + "  "
+            + value.substring(end);
+
+            // put caret at right position again (add one for the tab)
+            this.selectionStart = this.selectionEnd = start + 2;
+
+            // prevent the focus lose
+            e.preventDefault();
+        }
+    });
+</script>
+
+<script>
+    var keys = {
+        command: 91,
+        ctrl: 17,
+        tab: 9,
+        openBracket: 219,
+        closeBracket: 221,
+        s: 83
+    };
+    el.addEventListener('keydown', function (e) {
+//        console.log(e.keyCode);
+//        e.preventDefault();
+//        e.stopPropagation();
+    });
+
+</script>
+
+<!--tooltip on anything with 'help' class and data-help with content-->
+<script>
+    var helpTargets = document.getElementsByClassName('help');
+    var tooltip = document.getElementsByClassName('explain')[0];
+
+    [].forEach.call(helpTargets, function(target) {
+        var delay;
+        target.addEventListener('mouseenter', function(e) {
+            delay = window.setTimeout(function() {
+                console.log('ok');
+                tooltip.textContent = target.getAttribute('data-help');
+                tooltip.style.visibility = "visible";
+                tooltip.style.top = (e.y + 20) + 'px';
+                tooltip.style.left = (e.x - 14) + 'px';
+            }, 1000);
+        });
+
+        target.addEventListener('mouseleave', function (e) {
+            clearTimeout(delay);
+            tooltip.style.visibility = "hidden";
+        });
+    });
+//    console.log(helpTargets);
+</script>
+</body>
+</html>
