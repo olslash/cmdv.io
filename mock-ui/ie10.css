@@ -1,5 +1,6 @@
 html,
-body {
+body,
+#app {
   height: 100%;
 }
 body {
@@ -80,7 +81,6 @@ body {
 }
 .sidebar-item ul.revisions .unsaved {
   color: #e5da7b;
-/*background-color: highlight-yellow*/
 }
 .sidebar-item ul.revisions img {
   height: 10px;

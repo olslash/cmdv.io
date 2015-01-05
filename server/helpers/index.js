@@ -14,7 +14,7 @@ module.exports = helpers = {
 
       return new Array(length)
           .join('_').split('_')
-          .reduce(function (word, letter) {
+          .reduce(function (word) {
             var rand;
             if (word.length % 2 === 0) {
               rand = (Math.random() * consonants.length) | 0;

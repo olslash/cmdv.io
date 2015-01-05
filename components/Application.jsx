@@ -1,6 +1,10 @@
 var Fluxxor = require('fluxxor'),
     React = require('react');
 
+var Sidebar = require('./Sidebar.jsx'),
+    Footer  = require('./Footer.jsx'),
+    Editor  = require('./Editor.jsx');
+
 var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -12,7 +16,7 @@ module.exports = React.createClass({
     return {
       currentKey: this.getFlux().store('NavigationStore').currentKey,
       currentLanguage: this.getFlux().store('NavigationStore').currentLanguage,
-      loading: this.getFlux().store('PasteLoadingStore').isLoading(),
+      isLoading: this.getFlux().store('PasteLoadingStore').isLoading(),
       pastes: this.getFlux().store('PasteStore').getPastes()
     };
   },
@@ -23,11 +27,10 @@ module.exports = React.createClass({
 
   render() {
     return (
-        <div id="paste">
-        {this.state.loading && "LOADING!"}
-        {this.state.pastes.get(this.state.currentKey)}
-
-          test
+        <div id="main-container">
+          <Editor />
+          <Sidebar />
+          <Footer />
         </div>
     );
   }
