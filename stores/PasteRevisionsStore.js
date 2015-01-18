@@ -14,12 +14,12 @@ module.exports = Fluxxor.createStore({
   },
 
   getRevisionsOfCurrentPaste() {
-    var key = this.flux.stores.NavigationStore.currentKey;
+    var key = this.flux.stores.NavigationStore.getCurrentKey();
     return this._revisions.get(key)
   },
 
   getUnsavedRevisionsOfCurrentPaste() {
-    var key = this.flux.stores.NavigationStore.currentKey;
+    var key = this.flux.stores.NavigationStore.getCurrentKey();
     return this._unsavedRevisions.get(key)
   },
 

@@ -1,9 +1,12 @@
 var Fluxxor = require('fluxxor'),
-    React = require('react/addons');
+    React   = require('react/addons');
 
-var Sidebar = require('./Sidebar.jsx'),
-    Footer  = require('./Footer.jsx'),
-    Editor  = require('./Editor.jsx');
+var Editor  = require('./Editor.jsx'),
+
+    ButtonPanel   = require('./subcomponents/ButtonPanel.jsx'),
+    Button        = require('./subcomponents/Button.jsx'),
+    Footer        = require('./Footer.jsx'),
+    RevisionsList = require('./RevisionsList.jsx');
 
 var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin,
@@ -17,10 +20,10 @@ module.exports = React.createClass({
     var flux = this.getFlux();
 
     return {
-      currentKey: flux.store('NavigationStore').currentKey,
+      currentKey:       flux.store('NavigationStore').getCurrentKey(),
       currentRevisions: flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
       unsavedRevisions: flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
-      editorContent: flux.store('PasteStore').getPaste( flux.store('NavigationStore').getCurrentKey() )
+      editorContent:    flux.store('PasteStore').getPaste( flux.store('NavigationStore').getCurrentKey() )
     };
   },
 
@@ -32,12 +35,21 @@ module.exports = React.createClass({
     return (
         <div id="main-container">
           <Editor initialContent={ this.state.editorContent }/>
-          <Sidebar>
-              <ButtonsPanel />
+
+          <nav id="sidebar">
+              <ButtonPanel>
+                  <Button data-help="create a new document, starting a new revision chain."
+                          src="public/images/icon-new.png" />
+                  <Button data-help="clone the current paste, starting a new revision chain."
+                          src="public/images/icon-clone.png" />
+                  <Button data-help="save the current paste (assigns a key and disables further editing)."
+                          src="public/images/icon-save.png" />
+              </ButtonPanel>
               <RevisionsList  currentRevisions={ this.state.currentRevisions }
                               unsavedRevisions={ this.state.unsavedRevisions }
                               selectedRevision={ this.state.currentKey }/>
-          </Sidebar>
+          </nav>
+
           <Footer />
         </div>
     );

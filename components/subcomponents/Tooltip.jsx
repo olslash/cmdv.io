@@ -7,8 +7,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 module.exports = React.createClass({
   mixins: [FluxMixin],
 
-  propTypes: {
-  },
+  propTypes: {},
 
   getInitialState: function () {
     return {
@@ -29,10 +28,10 @@ module.exports = React.createClass({
         delay = window.setTimeout(function () {
           var x = e.x || e.clientX;
           var y = e.y || e.clientY;
-          component.setState({ text: target.getAttribute('data-help') });
-          component.setState({ hidden: false });
-          component.setState({ top: (y + 20) + 'px' });
-          component.setState({ left: (x - 14) + 'px' });
+          component.setState({text: target.getAttribute('data-help')});
+          component.setState({hidden: false});
+          component.setState({top: (y + 20) + 'px'});
+          component.setState({left: (x - 14) + 'px'});
         }, 1000);
       });
 
@@ -41,8 +40,6 @@ module.exports = React.createClass({
         component.setState({hidden: true});
       });
     });
-
-
   },
 
   render: function () {
@@ -52,31 +49,9 @@ module.exports = React.createClass({
       left: this.state.left
     };
     return (
-      <div className="explain" style={ style } >
+        <div className="explain" style={ style } >
         { this.state.text }
-      </div>
+        </div>
     )
   }
 });
-
-//var helpTargets = document.getElementsByClassName('help');
-//var tooltip = document.getElementsByClassName('explain')[0];
-//
-//[].forEach.call(helpTargets, function (target) {
-//  var delay;
-//  target.addEventListener('mouseenter', function (e) {
-//    delay = window.setTimeout(function () {1
-//      var x = e.x || e.clientX;
-//      var y = e.y || e.clientY;
-//      tooltip.textContent = target.getAttribute('data-help');
-//      tooltip.style.visibility = "visible";
-//      tooltip.style.top = (y + 20) + 'px';
-//      tooltip.style.left = (x - 14) + 'px';
-//    }, 1000);
-//  });
-//
-//  target.addEventListener('mouseleave', function (e) {
-//    clearTimeout(delay);
-//    tooltip.style.visibility = "hidden";
-//  });
-//});
