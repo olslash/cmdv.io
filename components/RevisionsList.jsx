@@ -1,5 +1,6 @@
-var Fluxxor = require('fluxxor');
-var React = require('react/addons');
+var Fluxxor   = require('fluxxor'),
+    React     = require('react/addons'),
+    Immutable = require('immutable');
 
 //var NavListItem = require('./NavListItem.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React),
@@ -10,9 +11,9 @@ module.exports = React.createClass({
   mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {
-    currentRevisions: React.PropTypes.arrayOf(React.PropTypes.string),
-    unsavedRevisions: React.PropTypes.arrayOf(React.PropTypes.string),
-    selectedRevision: React.PropTypes.string
+    currentRevisions: React.PropTypes.instanceOf(Immutable.List),
+    unsavedRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
+    selectedRevision: React.PropTypes.string  // immutableJS array
   },
 
   getInitialState: function () {
@@ -49,8 +50,8 @@ module.exports = React.createClass({
     return (
         <div className="sidebar-item">
           <h1>REVISIONS</h1>
-          <ol className="revisions">{ this.props.currentRevisions }</ol>
-          <ol className="revisions">{ this.props.unsavedRevisions }</ol>
+          <ol className="revisions">{ this.props.currentRevisions.toJS() }</ol>
+          <ol className="revisions">{ this.props.unsavedRevisions.toJS() }</ol>
         </div>
     );
   }
