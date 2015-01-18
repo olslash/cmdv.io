@@ -50,6 +50,7 @@ module.exports = React.createClass({
         <div className="sidebar-item">
           <h1>REVISIONS</h1>
           <ol className="revisions">{ this.props.currentRevisions }</ol>
+          <ol className="revisions">{ this.props.unsavedRevisions }</ol>
         </div>
     );
   }

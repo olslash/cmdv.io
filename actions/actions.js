@@ -1,5 +1,8 @@
 var config = require('../frontend_config.js'),
-    constants = require('../constants');
+    constants = require('../constants'),
+    helpers   = require('../helpers');
+
+var uuidCounter = 0;
 
 module.exports = {
   savePaste(pasteID, pasteContent) {
@@ -38,5 +41,12 @@ module.exports = {
 
   pageLoaded(urlPath) {
     this.dispatch(constants.PAGE_LOADED, {path: urlPath})
+  },
+
+  pasteModified() {
+    var tempKey = '(unsaved)' + uuidCounter;
+    this.dispatch(constants.CURRENT_PASTE_MODIFIED, {
+      tempKey: tempKey
+    })
   }
 };

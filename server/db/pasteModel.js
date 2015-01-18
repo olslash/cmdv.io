@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Promise  = require('bluebird');
 
 var History = require('./historyModel'),
-    helpers = require('../helpers'),
+    helpers = require('../../helpers'),
     config = require('../../server_config');
 
 var pasteSchema = mongoose.Schema({
@@ -43,7 +43,7 @@ pasteSchema.statics.savePaste = function (content, existingKey) {
 
 pasteSchema.statics._generateUniqueKey = function(length) {
   return new Promise(function(resolve, reject) {
-    var newKey = helpers.generateUniqueKey(length);
+    var newKey = helpers.generateKey(length);
 
     this._verifyKeyIsUnique(newKey)
       .then(function () {

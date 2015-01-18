@@ -2,7 +2,7 @@ var express = require('express'),
     bodyParser = require('body-parser');
 
 var db = require('../db'), // fixme: don't pretend this is sync
-    helpers = require('../helpers');
+    helpers = require('../../helpers');
 
 module.exports =  pasteRouter = express.Router();
 

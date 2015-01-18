@@ -1,13 +1,7 @@
 var Promise = require('bluebird');
 
 module.exports = helpers = {
-  generateUniqueKey: function(length) {
-
-//    return 'japobaga';
-
-
-
-
+  generateKey: function(length) {
       // alternate vowel and consonant
       var vowels = ['a', 'e', 'i', 'o', 'u'];
       var consonants = ['b', 'd', 'f', 'g', 'h', 'j', 'k', 'm', 'l', 'm', 'n', 'p', 'r', 's', 't', 'w', 'y'];

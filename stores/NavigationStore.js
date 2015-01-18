@@ -9,8 +9,17 @@ module.exports = Fluxxor.createStore({
     var _currentLanguage = '';
 
     this.bindActions(
-      constants.PAGE_LOADED, this._onPageLoad
+      constants.PAGE_LOADED, this._onPageLoad,
+      constants.CURRENT_PASTE_MODIFIED, this._onCurrentPasteModified
     )
+  },
+
+  _emitChange() {
+    this.emit('change');
+  },
+
+  getCurrentKey() {
+    return this._currentKey
   },
 
   _onPageLoad: function(payload) {
@@ -27,7 +36,8 @@ module.exports = Fluxxor.createStore({
     this.emit('change');
   },
 
-  getCurrentKey() {
-    return this._currentKey
+  _onCurrentPasteModified(payload) {
+    this._currentKey = payload.tempKey;
+    this._emitChange();
   }
 });

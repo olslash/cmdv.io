@@ -43,7 +43,7 @@ module.exports = {
     });
   },
 
-  // generates a unique key, and verifying there are no collisions
+  // generates a unique key, verifying there are no collisions
   generateUniqueKey: function(length) {
     return Paste.generateUniqueKey(length);
   },

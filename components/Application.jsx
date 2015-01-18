@@ -1,8 +1,8 @@
 var Fluxxor = require('fluxxor'),
     React   = require('react/addons');
 
-var Editor  = require('./Editor.jsx'),
-
+var Editor        = require('./Editor.jsx'),
+    ToolTip       = require('./subcomponents/Tooltip.jsx'),
     ButtonPanel   = require('./subcomponents/ButtonPanel.jsx'),
     Button        = require('./subcomponents/Button.jsx'),
     Footer        = require('./Footer.jsx'),
@@ -34,6 +34,7 @@ module.exports = React.createClass({
   render() {
     return (
         <div id="main-container">
+          <ToolTip />
           <Editor initialContent={ this.state.editorContent }/>
 
           <nav id="sidebar">

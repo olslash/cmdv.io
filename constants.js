@@ -11,5 +11,7 @@ module.exports = {
   PASTE_SAVED: 'PASTE_SAVED', // particular paste has been saved
   PASTE_SAVE_FAILED: 'PASTE_SAVE_FAILED', // saving of a particular paste failed
 
-  PAGE_LOADED: 'PAGE_LOADED' // user has navigated to a URL
+  PAGE_LOADED: 'PAGE_LOADED', // user has navigated to a URL
+
+  CURRENT_PASTE_MODIFIED: 'CURRENT_PASTE_MODIFIED' // called by editor when a clean paste is edited by the user
 };

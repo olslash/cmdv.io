@@ -19,11 +19,17 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value: nextProps.initialContent
+    });
   },
 
   _onChange(e) {
+    if(this.state.isClean) {
+      this.getFlux().actions.pasteModified();
+    }
+
     this.setState({
       value: e.target.value,
       isClean: false
@@ -33,7 +39,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <section id="paste-content">
-        <textarea value={ this.props.initialContent }
+        <textarea value={ this.state.value }
                   onChange={ this._onChange }
                   autoComplete="off"
                   autoCapitalize="none"
