@@ -5,15 +5,15 @@ var constants = require('../constants');
 // NavigationStore
 module.exports = Fluxxor.createStore({
   initialize: function () {
-    var currentKey = '';
-    var currentLanguage = '';
+    var _currentKey = '';
+    var _currentLanguage = '';
 
     this.bindActions(
-      constants.PAGE_LOADED, this.onPageLoad
+      constants.PAGE_LOADED, this._onPageLoad
     )
   },
 
-  onPageLoad: function(payload) {
+  _onPageLoad: function(payload) {
     var path = payload.path;
 
 
@@ -21,9 +21,13 @@ module.exports = Fluxxor.createStore({
     var routeComponents = path.match(routeRegex);
 
     if(routeComponents !== null) {
-      this.currentKey = routeComponents[1];
+      this._currentKey = routeComponents[1];
       this.currentLanguage = routeComponents[2];
     }
     this.emit('change');
+  },
+
+  getCurrentKey() {
+    return this._currentKey
   }
 });

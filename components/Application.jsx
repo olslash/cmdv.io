@@ -1,23 +1,26 @@
 var Fluxxor = require('fluxxor'),
-    React = require('react');
+    React = require('react/addons');
 
 var Sidebar = require('./Sidebar.jsx'),
     Footer  = require('./Footer.jsx'),
     Editor  = require('./Editor.jsx');
 
 var FluxMixin = Fluxxor.FluxMixin(React),
-    StoreWatchMixin = Fluxxor.StoreWatchMixin;
+    StoreWatchMixin = Fluxxor.StoreWatchMixin,
+    PureRenderMixin = React.addons.PureRenderMixin;
 
 // Application component
 module.exports = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin('NavigationStore', 'PasteLoadingStore', 'PasteStore')],
+  mixins: [FluxMixin, PureRenderMixin, StoreWatchMixin('NavigationStore', 'PasteRevisionsStore')],
 
   getStateFromFlux() {
+    var flux = this.getFlux();
+
     return {
-      currentKey: this.getFlux().store('NavigationStore').currentKey,
-      currentLanguage: this.getFlux().store('NavigationStore').currentLanguage,
-      isLoading: this.getFlux().store('PasteLoadingStore').isLoading(),
-      pastes: this.getFlux().store('PasteStore').getPastes()
+      currentKey: flux.store('NavigationStore').currentKey,
+      currentRevisions: flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
+      unsavedRevisions: flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
+      editorContent: flux.store('PasteStore').getPaste( flux.store('NavigationStore').getCurrentKey() )
     };
   },
 
@@ -28,8 +31,13 @@ module.exports = React.createClass({
   render() {
     return (
         <div id="main-container">
-          <Editor />
-          <Sidebar />
+          <Editor initialContent={ this.state.editorContent }/>
+          <Sidebar>
+              <ButtonsPanel />
+              <RevisionsList  currentRevisions={ this.state.currentRevisions }
+                              unsavedRevisions={ this.state.unsavedRevisions }
+                              selectedRevision={ this.state.currentKey }/>
+          </Sidebar>
           <Footer />
         </div>
     );

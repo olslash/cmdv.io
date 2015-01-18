@@ -16,4 +16,3 @@ flux.on('dispatch', function (type, payload) {
 
 flux.actions.pageLoaded(document.location.pathname);
 React.render(<Application flux={flux} />, document.getElementById("app"));
-

@@ -6,14 +6,21 @@ var Fluxxor = require('Fluxxor'),
 module.exports = Fluxxor.createStore({
   initialize: function () {
     this._revisions = Immutable.Map();
+    this._unsavedRevisions = Immutable.Map();
 
     this.bindActions(
         constants.PASTE_LOADED, this._onPasteLoaded
     );
   },
 
-  getRevisions() {
-    return this._revisions;
+  getRevisionsOfCurrentPaste() {
+    var key = this.flux.stores.NavigationStore.currentKey;
+    return this._revisions.get(key)
+  },
+
+  getUnsavedRevisionsOfCurrentPaste() {
+    var key = this.flux.stores.NavigationStore.currentKey;
+    return this._unsavedRevisions.get(key)
   },
 
   _emitChange() {

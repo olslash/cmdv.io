@@ -1,31 +1,44 @@
 var Fluxxor = require('fluxxor');
-var React = require('react');
+var React = require('react/addons');
 
-var FluxMixin = Fluxxor.FluxMixin(React);
+var FluxMixin = Fluxxor.FluxMixin(React),
+    PureRenderMixin = React.addons.PureRenderMixin;
 
 // Editor component
 module.exports = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {
-//    onSave: React.PropTypes.func.isRequired,
-//    value: React.PropTypes.string
+    initialContent: React.PropTypes.string
   },
 
   getInitialState: function () {
-    return {};
+    return {
+      value: this.props.initialContent,
+      isClean: true
+    };
   },
 
   componentDidMount: function () {
 
   },
 
+  _onChange(e) {
+    this.setState({
+      value: e.target.value,
+      isClean: false
+    });
+  },
+
   render: function () {
     return (
       <section id="paste-content">
-        <textarea autoComplete="off" autoCapitalize="none" spellCheck="false" autoFocus>
-            text
-        </textarea>
+        <textarea value={ this.props.initialContent }
+                  onChange={ this._onChange }
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  spellCheck="false"
+                  autoFocus />
       </section>
     );
   }

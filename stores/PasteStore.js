@@ -4,15 +4,15 @@ var Fluxxor = require('Fluxxor'),
 
 module.exports = Fluxxor.createStore({
   initialize: function() {
-    this.pastes = Immutable.Map(); // pastes that have been retrieved from the server
+    this._pastes = Immutable.Map(); // pastes that have been retrieved from the server
 
     this.bindActions(
       constants.PASTE_LOADED, this._onPasteLoaded
     );
   },
 
-  getPastes() {
-    return this.pastes;
+  getPaste(key) {
+    return this._pastes.get(key)
   },
 
   _emitChange() {
@@ -20,7 +20,7 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteLoaded(payload) {
-    this.pastes = this.pastes.set(payload.pasteID, payload.pasteContent);
+    this._pastes = this._pastes.set(payload.pasteID, payload.pasteContent);
 
     this._emitChange();
   }
