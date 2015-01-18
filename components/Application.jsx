@@ -35,7 +35,8 @@ module.exports = React.createClass({
     return (
         <div id="main-container">
           <ToolTip />
-          <Editor initialContent={ this.state.editorContent }/>
+          <Editor initialContent={ this.state.editorContent }
+                  onDirty={ this.getFlux().actions.currentPasteModified }/>
 
           <nav id="sidebar">
               <ButtonPanel>

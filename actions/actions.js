@@ -43,7 +43,7 @@ module.exports = {
     this.dispatch(constants.PAGE_LOADED, {path: urlPath})
   },
 
-  pasteModified() {
+  currentPasteModified() {
     var tempKey = '(unsaved)' + uuidCounter;
     this.dispatch(constants.CURRENT_PASTE_MODIFIED, {
       tempKey: tempKey

@@ -9,7 +9,8 @@ module.exports = React.createClass({
   mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {
-    initialContent: React.PropTypes.string
+    initialContent: React.PropTypes.string,
+    onDirty: React.PropTypes.func // function to call when a paste is modified for the first time
   },
 
   getInitialState: function () {
@@ -27,7 +28,7 @@ module.exports = React.createClass({
 
   _onChange(e) {
     if(this.state.isClean) {
-      this.getFlux().actions.pasteModified();
+      this.props.onDirty();
     }
 
     this.setState({

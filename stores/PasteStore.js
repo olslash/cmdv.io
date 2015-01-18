@@ -12,7 +12,11 @@ module.exports = Fluxxor.createStore({
   },
 
   getPaste(key) {
-    return this._pastes.get(key)
+    var paste = this._pastes.get(key);
+    if (paste) return paste;
+
+    // paste not cached-- ask for it from the server
+//    this.flux.actions.loadPaste(key);
   },
 
   _emitChange() {
