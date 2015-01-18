@@ -5,8 +5,8 @@ var Fluxxor = require('Fluxxor'),
 
 module.exports = Fluxxor.createStore({
   initialize: function () {
-    this._revisions = Immutable.Map();
-    this._unsavedRevisions = Immutable.Map();
+    this._revisions = Immutable.List();
+    this._unsavedRevisions = Immutable.List();
 
     this.bindActions(
         constants.PASTE_LOADED, this._onPasteLoaded,
@@ -15,14 +15,11 @@ module.exports = Fluxxor.createStore({
   },
 
   getRevisionsOfCurrentPaste() {
-    // if the currently selected paste is an unsaved revision, we still need to get the parent's revisions
-    var key = this.flux.stores.NavigationStore.getCurrentKey();
-    return this._revisions.get(key)
+    return this._revisions
   },
 
   getUnsavedRevisionsOfCurrentPaste() {
-    var key = this.flux.stores.NavigationStore.getCurrentKey();
-    return this._unsavedRevisions.get(key)
+    return this._unsavedRevisions
   },
 
   _emitChange() {
@@ -30,23 +27,12 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteLoaded(payload) {
-    // associate every key in the payload's revisions array with that revisions array
-    payload.revisions.forEach( key => this._revisions = this._revisions.set(key, payload.revisions) );
-
+    this._revisions = Immutable.fromJS(payload.revisions);
     this._emitChange();
   },
 
   _onCurrentPasteModified(payload) {
-    var key = this.flux.stores.NavigationStore.getCurrentKey();
-    var unsavedRevisions = this._unsavedRevisions.get(key);
-
-    if(unsavedRevisions) {
-      unsavedRevisions.push(payload.tempKey);
-    } else {
-      unsavedRevisions = [payload.tempKey];
-    }
-
-    this._unsavedRevisions = this._unsavedRevisions.set(key, unsavedRevisions);
+    this._unsavedRevisions = this._unsavedRevisions.push(payload.tempKey);
     this._emitChange();
   }
 });
