@@ -31,21 +31,27 @@ module.exports = React.createClass({
     this.getFlux().actions.loadPaste(this.state.currentKey)
   },
 
+  _saveCurrentPaste() {
+
+  },
+
   render() {
     return (
         <div id="main-container">
           <ToolTip />
+
           <Editor initialContent={ this.state.editorContent }
                   onDirty={ this.getFlux().actions.currentPasteModified }/>
 
           <nav id="sidebar">
               <ButtonPanel>
-                  <Button data-help="create a new document, starting a new revision chain."
+                  <Button helpText="create a new document, starting a new revision chain."
                           src="public/images/icon-new.png" />
-                  <Button data-help="clone the current paste, starting a new revision chain."
+                  <Button helpText="clone the current paste, starting a new revision chain."
                           src="public/images/icon-clone.png" />
-                  <Button data-help="save the current paste (assigns a key and disables further editing)."
-                          src="public/images/icon-save.png" />
+                  <Button helpText="save the current paste (assigns a key and disables further editing)."
+                          src="public/images/icon-save.png"
+                          action={ this._saveCurrentPaste }/>
               </ButtonPanel>
               <RevisionsList  currentRevisions={ this.state.currentRevisions }
                               unsavedRevisions={ this.state.unsavedRevisions }
@@ -57,5 +63,3 @@ module.exports = React.createClass({
     );
   }
 });
-
-//jumomito

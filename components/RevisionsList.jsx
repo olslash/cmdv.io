@@ -11,9 +11,9 @@ module.exports = React.createClass({
   mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {
-    currentRevisions: React.PropTypes.instanceOf(Immutable.List),
+    currentRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
     unsavedRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
-    selectedRevision: React.PropTypes.string  // immutableJS array
+    selectedRevision: React.PropTypes.string
   },
 
   getInitialState: function () {
@@ -47,11 +47,15 @@ module.exports = React.createClass({
 //      })
 //    }
 //
+    var listItem = item => <li key={ item }>{ item } </li>;
+    var current = this.props.currentRevisions.toJS().map( listItem );
+    var unsaved = this.props.unsavedRevisions.toJS().map( listItem );
+
     return (
         <div className="sidebar-item">
           <h1>REVISIONS</h1>
-          <ol className="revisions">{ this.props.currentRevisions.toJS() }</ol>
-          <ol className="revisions">{ this.props.unsavedRevisions.toJS() }</ol>
+          <ol className="revisions">{ current }</ol>
+          <ol className="revisions">{ unsaved }</ol>
         </div>
     );
   }
