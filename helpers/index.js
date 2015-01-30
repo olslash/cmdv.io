@@ -20,5 +20,13 @@ module.exports = helpers = {
 
             return word;
           }, []).join('');
+  },
+
+  // make a function call on the next event loop- for calling actions from stores while already dispatching
+  callAsync: function(f, context) {
+    var args = [].slice.call(arguments, 2);
+    window.setTimeout(function() {
+      f.apply(context, args);
+    }, 0);
   }
 };

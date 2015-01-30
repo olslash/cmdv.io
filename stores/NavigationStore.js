@@ -5,12 +5,13 @@ var constants = require('../constants');
 // NavigationStore
 module.exports = Fluxxor.createStore({
   initialize: function () {
-    var _currentKey = '';
-    var _currentLanguage = '';
+    this._currentKey = '';
+//    this. _currentLanguage = '';
 
     this.bindActions(
       constants.PAGE_LOADED, this._onPageLoad,
-      constants.CURRENT_PASTE_MODIFIED, this._onCurrentPasteModified
+      constants.PASTE_SELECTED, this._onPasteSelected,
+      constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
     )
   },
 
@@ -24,20 +25,30 @@ module.exports = Fluxxor.createStore({
 
   _onPageLoad: function(payload) {
     var path = payload.path;
-
-
     var routeRegex = /^\/([a-zA-Z]+)\.?([a-zA-Z]*)$/; // '/(key).(language)?'
     var routeComponents = path.match(routeRegex);
 
     if(routeComponents !== null) {
       this._currentKey = routeComponents[1];
-      this.currentLanguage = routeComponents[2];
+//      this.currentLanguage = routeComponents[2];
     }
-    this.emit('change');
+
+    this._emitChange();
   },
 
-  _onCurrentPasteModified(payload) {
+  _onPasteSelected: function(payload) {
+    this._currentKey = payload.pasteID;
+
+    this._emitChange();
+  },
+
+  _onPristinePasteModified(payload) {
     this._currentKey = payload.tempKey;
     this._emitChange();
   }
+
+//  _onCurrentPasteModified(payload) {
+//    this._currentKey = payload.tempKey;
+//    this._emitChange();
+//  }
 });

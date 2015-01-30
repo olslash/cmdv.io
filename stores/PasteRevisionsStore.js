@@ -10,7 +10,7 @@ module.exports = Fluxxor.createStore({
 
     this.bindActions(
         constants.PASTE_LOADED, this._onPasteLoaded,
-        constants.CURRENT_PASTE_MODIFIED, this._onCurrentPasteModified
+        constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
     );
   },
 
@@ -27,12 +27,19 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteLoaded(payload) {
+    // future: check payload.isNewHistoryChain or something
     this._revisions = Immutable.fromJS(payload.revisions);
     this._emitChange();
   },
 
-  _onCurrentPasteModified(payload) {
+  _onPristinePasteModified(payload) {
+    //todo: do something with payload.parentKey -- do I need it?
     this._unsavedRevisions = this._unsavedRevisions.push(payload.tempKey);
     this._emitChange();
   }
+//
+//  _onCurrentPasteModified(payload) {
+//    this._unsavedRevisions = this._unsavedRevisions.push(payload.tempKey);
+//    this._emitChange();
+//  }
 });

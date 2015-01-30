@@ -7,16 +7,19 @@ module.exports = Fluxxor.createStore({
     this._pastes = Immutable.Map(); // pastes that have been retrieved from the server
 
     this.bindActions(
-      constants.PASTE_LOADED, this._onPasteLoaded
+      constants.PASTE_LOADED, this._onPasteLoaded,
+      constants.PASTE_SELECTED, this._onPasteSelected,
+      constants.PASTE_MODIFIED, this._onPasteModified
     );
   },
 
-  getPaste(key) {
-    var paste = this._pastes.get(key);
-    if (paste) return paste;
-
-    // paste not cached-- ask for it from the server
-//    this.flux.actions.loadPaste(key);
+  getPaste(pasteID) {
+    var paste = this._pastes.get(pasteID);
+    if(paste) {
+      return paste;
+    } else { // not in the store-- but should be loaded by PASTE_SELECTED
+      return '';
+    }
   },
 
   _emitChange() {
@@ -24,6 +27,20 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteLoaded(payload) {
+    this._pastes = this._pastes.set(payload.pasteID, payload.pasteContent);
+
+    this._emitChange();
+  },
+
+  _onPasteSelected(payload) {
+    var selectedPaste = this._pastes.get(payload.pasteID);
+
+    if(!selectedPaste) { // not in memory-- ask for it from the server
+      helpers.callAsync(this.flux.actions.loadPaste, this, payload.pasteID);
+    }
+  },
+
+  _onPasteModified(payload) {
     this._pastes = this._pastes.set(payload.pasteID, payload.pasteContent);
 
     this._emitChange();

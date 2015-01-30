@@ -10,6 +10,7 @@ module.exports = React.createClass({
   propTypes: {
     src: React.PropTypes.string.isRequired,
     action: React.PropTypes.func,
+    disabled: React.PropTypes.bool,
     'helpText': React.PropTypes.string
   },
 
@@ -17,6 +18,7 @@ module.exports = React.createClass({
     return (
         <img  className="icon help"
               src={ this.props.src }
+              onClick={ this.props.disabled ? null : this.props.action }
               data-help={ this.props.helpText }/>
     )
   }

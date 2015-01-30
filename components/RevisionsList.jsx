@@ -4,7 +4,8 @@ var Fluxxor   = require('fluxxor'),
 
 //var NavListItem = require('./NavListItem.jsx');
 var FluxMixin = Fluxxor.FluxMixin(React),
-    PureRenderMixin = React.addons.PureRenderMixin;
+    PureRenderMixin = React.addons.PureRenderMixin,
+    cx = React.addons.classSet;
 
 // Sidebar component
 module.exports = React.createClass({
@@ -16,46 +17,38 @@ module.exports = React.createClass({
     selectedRevision: React.PropTypes.string
   },
 
-  getInitialState: function () {
-    return {};
-  },
-
-  componentDidMount: function () {
-
-  },
-
   render: function () {
-//    console.log(this.props);
-//    var revisions = [];
-//
-//    if (this.props.items) {
-//      revisions = this.props.items.map(itemName => {
-//        var className = this.props.selectedItem === itemName ? 'active' : '';
-//
-//        return <li className={ className } key={ itemName }>
-//          <span className="num">| </span> { itemName }
-//        </li>
-//      });
-//    }
-//    if (this.props.unsavedItems) {
-//      this.props.unsavedItems.forEach(itemName => {
-//        var className = this.props.selectedItem === itemName ? 'active' : '';
-//
-//        revisions.push(<li className={ className } key={ itemName }>
-//          <span className="num">| </span> { itemName }
-//        </li>)
-//      })
-//    }
-//
-    var listItem = item => <li key={ item }>{ item } </li>;
-    var current = this.props.currentRevisions.toJS().map( listItem );
-    var unsaved = this.props.unsavedRevisions.toJS().map( listItem );
+    var pasteSelectedAction = this.getFlux().actions.pasteSelected;
+
+    var listItem = (text, classList) => <li onClick  ={ pasteSelectedAction.bind(null, text) }
+                                            className={ classList }
+                                            key      ={ text }>
+                                            { text } </li>;
+
+    var currentItems = this.props.currentRevisions.toJS().map( pasteID => {
+      var isActive = this.props.selectedRevision === pasteID;
+      var classes = cx({
+        active: isActive
+      });
+
+      return listItem(pasteID, classes);
+    });
+
+    var unsavedItems = this.props.unsavedRevisions.toJS().map( pasteID => {
+      var isActive = this.props.selectedRevision === pasteID;
+      var classes = cx({
+        active: isActive,
+        unsaved: true
+      });
+
+      return listItem(pasteID, classes)
+    } );
 
     return (
         <div className="sidebar-item">
           <h1>REVISIONS</h1>
-          <ol className="revisions">{ current }</ol>
-          <ol className="revisions">{ unsaved }</ol>
+          <ol className="revisions">{ currentItems }</ol>
+          <ol className="revisions">{ unsavedItems }</ol>
         </div>
     );
   }

@@ -35,13 +35,15 @@ module.exports = Fluxxor.createStore({
   _onPasteSaving(payload) {
     this._savingPasteIDs = this._savingPasteIDs.set(payload.pasteID, true);
     this._failedSavingPasteIDs = this._failedSavingPasteIDs.delete(payload.pasteID);
-    this.emitChange();
+
+    this._emitChange();
   },
 
   _onPasteSaved(payload) {
     this._savingPasteIDs = this._savingPasteIDs.delete(payload.pasteID);
     this._failedSavingPasteIDs = this._failedSavingPasteIDs.delete(payload.pasteID);
-    this.emitChange();
+
+    this._emitChange();
   },
 
   _onPasteSaveFailed(payload) {

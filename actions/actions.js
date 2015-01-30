@@ -5,27 +5,40 @@ var config = require('../frontend_config.js'),
 var uuidCounter = 0;
 
 module.exports = {
-  savePaste(pasteID, pasteContent) {
-    pasteID = pasteID || '';
+  savePaste(tempID, parentID, pasteContent) {
+//    pasteID = pasteID || '';
+    if(pasteContent.length === 0) {
+      console.log('tried to save a paste with empty content');
+    }
 
-    this.dispatch(constants.PASTE_SAVING, { pasteID });
-    $.post(`${config.serverBaseURL}/pastes/${pasteID}`, pasteContent)
+    this.dispatch(constants.PASTE_SAVING, { tempID });
+    $.ajax({
+      type: 'POST',
+      url: `${config.serverBaseURL}/pastes/${parentID}`,
+      data: pasteContent,
+      contentType: 'text/plain'
+    })
       .done((response) => {
         this.dispatch(constants.PASTE_SAVED, {
+          tempID: tempID,
+          pasteID: response.pasteID
+        });
+
+        this.dispatch(constants.PASTE_LOADED, {
           pasteID: response.pasteID,
           pasteContent: response.pasteContent,
           revisions: response.revisions
-        })
+        });
       })
 
       .fail((error) => {
-        this.dispatch(constants.PASTE_SAVE_FAILED, { pasteID })
+        this.dispatch(constants.PASTE_SAVE_FAILED, { tempID })
       });
   },
 
   loadPaste(pasteID) {
     this.dispatch(constants.PASTE_LOADING, { pasteID });
-    $.get(`${config.serverBaseURL}/pastes/${pasteID}`)
+    $.get(`${ config.serverBaseURL }/pastes/${ pasteID }`)
       .done((response) => {
         this.dispatch(constants.PASTE_LOADED, {
           pasteID: response.pasteID,
@@ -35,18 +48,24 @@ module.exports = {
       })
 
       .fail((error) => {
-        this.dispatch(constants.PASTE_LOAD_FAILED, { pasteID })
+        this.dispatch(constants.PASTE_LOAD_FAILED, { pasteID });
       });
   },
 
-  pageLoaded(urlPath) {
-    this.dispatch(constants.PAGE_LOADED, {path: urlPath})
+  pasteSelected(pasteID) {
+    this.dispatch(constants.PASTE_SELECTED, { pasteID });
   },
 
-  currentPasteModified() {
+  pageLoaded(urlPath) {
+    this.dispatch(constants.PAGE_LOADED, { path: urlPath });
+  },
+
+  pristinePasteModified(parentKey) {
     var tempKey = `(unsaved) ${ ++uuidCounter }`;
-    this.dispatch(constants.CURRENT_PASTE_MODIFIED, {
-      tempKey: tempKey
-    })
+    this.dispatch(constants.PRISTINE_PASTE_MODIFIED, { parentKey, tempKey });
+  },
+
+  pasteModified(pasteID, newValue) {
+    this.dispatch(constants.PASTE_MODIFIED, { pasteID, newValue });
   }
 };

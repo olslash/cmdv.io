@@ -10,6 +10,7 @@ module.exports = React.createClass({
 
   propTypes: {
     initialContent: React.PropTypes.string,
+    onChange: React.PropTypes.func,
     onDirty: React.PropTypes.func // function to call when a paste is modified for the first time
   },
 
@@ -22,17 +23,24 @@ module.exports = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      value: nextProps.initialContent
+      value: nextProps.initialContent,
+      isClean: true
     });
   },
 
   _onChange(e) {
+    // fixme: should the application component hold all of the editor's state?
+    // could be issues with state.value held in editor component and in application component...
+    var newValue = e.target.value;
+
     if(this.state.isClean) {
       this.props.onDirty();
     }
 
+    this.props.onChange(newValue);
+
     this.setState({
-      value: e.target.value,
+      value: newValue,
       isClean: false
     });
   },

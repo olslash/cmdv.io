@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t [reactify --es6] App.jsx -o public/app.js",
     "watch": "watchify -v -t [reactify --es6] App.jsx -o public/app.js",
-    "start": "NODE_ENV=dev /usr/local/bin/nodemon server/index.js",
+    "start": "NODE_ENV=dev nodemon server/index.js",
     "serve": "cd public; python -m SimpleHTTPServer 8888"
   },
   "author": "Mitch Robb",
