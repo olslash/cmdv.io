@@ -13,7 +13,7 @@ module.exports = {
     this.dispatch(constants.PASTE_SAVING, { tempID });
     $.ajax({
       type: 'POST',
-      url: `${config.serverBaseURL}/pastes/${parentID}`,
+      url: `${config.serverBaseURL}/pastes/${parentID || ''}`,
       data: pasteContent,
       contentType: 'text/plain'
     })
