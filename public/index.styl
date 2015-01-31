@@ -20,7 +20,6 @@ body
   box-sizing: border-box
 
 .explain
-  visibility: hidden
   position: fixed
   z-index: 100
   padding: .5em
@@ -74,8 +73,8 @@ body
     font-weight: bold
     color: text-med-grey
 
-  ul.revisions
-    list-style-type: none
+  ol.revisions
+    /*list-style-type: none*/
     padding: 0
     margin: 0
 
@@ -94,6 +93,9 @@ body
       vertical-align: bottom
       display: inline
       margin-left: .25em
+
+      &.hidden
+        visibility: hidden
 
 #paste-content, #line-numbers
   height: 70%
