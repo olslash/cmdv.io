@@ -14,7 +14,10 @@ var FluxMixin = Fluxxor.FluxMixin(React),
 
 // Application component
 module.exports = React.createClass({
-  mixins: [FluxMixin, PureRenderMixin, StoreWatchMixin('PasteStore', 'NavigationStore', 'PasteRevisionsStore')],
+  mixins: [FluxMixin, PureRenderMixin, StoreWatchMixin('PasteStore',
+                                                       'NavigationStore',
+                                                       'PasteRevisionsStore',
+                                                       'PasteLoadingStore')],
 
   getStateFromFlux() {
     var flux = this.getFlux();
