@@ -35,7 +35,7 @@ module.exports = React.createClass({
 
   _saveCurrentPaste() {
     var parentPasteKey = this.state.currentRevisions.toJS()[0]; // could be any key in the chain.
-    this.getFlux().actions.savePaste(this.state.currentKey, parentPasteKey, this.state.editedPasteContent);
+    this.getFlux().actions.savePaste(this.state.currentKey, parentPasteKey, this.state.currentPasteData.pasteContent);
   },
 
   _pasteContentChanged(newValue) {
@@ -47,7 +47,7 @@ module.exports = React.createClass({
         <div id="main-container">
           <ToolTip />
 
-          <Editor valueLink  =       { this.state.currentPasteData.paste }
+          <Editor valueLink  =       { this.state.currentPasteData.pasteContent }
                   onDirty=       { this.getFlux().actions.pristinePasteModified.bind(null, this.state.currentKey) }
                   onChange=      { this._pasteContentChanged }
                   valueIsPristine = { this.state.currentPasteData.isClean  }/>

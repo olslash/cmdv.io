@@ -22,7 +22,6 @@ module.exports = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    console.log('got new props', nextProps.valueIsPristine, 'pristine');
     this.setState({
       isClean: nextProps.valueIsPristine
     });

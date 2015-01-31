@@ -29,7 +29,7 @@ module.exports = Fluxxor.createStore({
     }
 
     return {
-      paste: paste || '',
+      pasteContent: paste || '',
       isClean: !pasteIsTemp
     }
 
