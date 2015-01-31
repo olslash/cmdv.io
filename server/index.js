@@ -4,7 +4,7 @@ var app = express();
 var port = process.env.PORT || 8000;
 
 // fixme?
-app.set('views', __dirname + '/../public');
+app.set('views', __dirname + '/../');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
