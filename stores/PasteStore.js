@@ -18,12 +18,11 @@ module.exports = Fluxxor.createStore({
   getPaste(pasteID) {
     // if not in the store, should be loaded by PASTE_SELECTED
     // fixme: clean up this logic
-    var pasteIsTemp;
+    var pasteIsTemp = false;
     var paste = this._pastes.get(pasteID);
-    if(paste !== undefined) {
-      pasteIsTemp = false;
-    } else {
+    if(paste === undefined) {
       paste = this._tempPastes.get(pasteID);
+
       if(paste !== undefined) {
         pasteIsTemp = true;
       }
@@ -33,8 +32,6 @@ module.exports = Fluxxor.createStore({
       pasteContent: paste || '',
       isClean: !pasteIsTemp
     }
-
-
   },
 
   _emitChange() {
@@ -57,6 +54,7 @@ module.exports = Fluxxor.createStore({
 
   _onPasteModified(payload) {
     this._tempPastes = this._tempPastes.set(payload.pasteID, payload.pasteContent);
+
     this._emitChange();
   },
 
