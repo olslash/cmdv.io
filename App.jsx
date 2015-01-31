@@ -14,5 +14,11 @@ flux.on('dispatch', function (type, payload) {
   console.log("[Dispatch]", type, payload);
 });
 
+window.addEventListener('popstate', function (e) {
+  if(e.state !== undefined) {
+    flux.actions.pasteSelected(e.state.pasteID, false);
+  }
+});
+
 flux.actions.pageLoaded(document.location.pathname);
 React.render(<Application flux={flux} />, document.getElementById("app"));

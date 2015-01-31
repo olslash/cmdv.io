@@ -24,6 +24,13 @@ module.exports = Fluxxor.createStore({
     return this._currentKey
   },
 
+  _setCurrentKey(pasteID, setHistory) {
+    this._currentKey = pasteID;
+    if(setHistory && this._currentKey != pasteID) { // do not set history for the same paste twice
+      history.pushState({ pasteID }, null, pasteID);
+    }
+  },
+
   _onPageLoad: function(payload) {
     var path = payload.path;
     var routeRegex = /^\/([a-zA-Z]+)\.?([a-zA-Z]*)$/; // '/(key).(language)?'
@@ -31,6 +38,7 @@ module.exports = Fluxxor.createStore({
 
     if(routeComponents !== null) {
       this._currentKey = routeComponents[1];
+      history.replaceState({ pasteID: routeComponents[1] }, null, routeComponents[1]);
 //      this.currentLanguage = routeComponents[2];
     }
 
@@ -38,21 +46,21 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteSelected: function(payload) {
-    this._currentKey = payload.pasteID;
+    this._setCurrentKey(payload.pasteID, payload.setHistory);
 
     this._emitChange();
   },
 
   _onPasteSaved: function(payload) {
     if(this._currentKey === payload.tempID) {
-      this._currentKey = payload.pasteID
+      this._setCurrentKey(payload.pasteID, true);
     }
 
     this._emitChange();
   },
 
   _onPristinePasteModified(payload) {
-    this._currentKey = payload.tempKey;
+    this._setCurrentKey(payload.tempKey, false);
     this._emitChange();
   }
 });
