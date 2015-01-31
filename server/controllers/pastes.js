@@ -43,6 +43,8 @@ pasteRouter.post('/', function (req, res) {
   // revisions: array of revisions related to this ID
 
   var content = req.body;
+  if(content.length === 0) return res.status(400).end();
+
   db.savePaste(content).then(function(data) {
     res.json(data);
   }).catch(function(err) {
@@ -54,6 +56,8 @@ pasteRouter.post('/:key', function (req, res) {
   // 'key' is the existing key to associate this new revision with
   var key = req.params.key.toLowerCase();
   var content = req.body;
+  if (content.length === 0) return res.status(400).end();
+
   db.savePaste(content, key).then(function (data) {
     res.json(data);
   })
