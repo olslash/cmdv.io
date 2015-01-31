@@ -43,14 +43,18 @@ module.exports = React.createClass({
   },
 
   render() {
+    var pasteData = this.state.currentPasteData;
+    var saveDisabled = pasteData.isClean || pasteData.pasteContent.length === 0;
+
     return (
         <div id="main-container">
           <ToolTip />
 
-          <Editor valueLink  =       { this.state.currentPasteData.pasteContent }
-                  onDirty=       { this.getFlux().actions.pristinePasteModified.bind(null, this.state.currentKey) }
-                  onChange=      { this._pasteContentChanged }
-                  valueIsPristine = { this.state.currentPasteData.isClean  }/>
+          <Editor valueLink  =       { pasteData.pasteContent }
+                  onDirty    =       { this.getFlux().actions.pristinePasteModified
+                                                             .bind(null, this.state.currentKey) }
+                  onChange   =      { this._pasteContentChanged }
+                  valueIsPristine = { pasteData.isClean  }/>
 
           <nav id="sidebar">
               <ButtonPanel>
@@ -61,7 +65,7 @@ module.exports = React.createClass({
                   <Button helpText="save the current paste (assigns a key and disables further editing)."
                           src="public/images/icon-save.png"
                           action={ this._saveCurrentPaste }
-                          disabled={ false }/>
+                          disabled={ !pasteData.pasteContent.length > 0 }/>
               </ButtonPanel>
               <RevisionsList  currentRevisions={ this.state.currentRevisions }
                               unsavedRevisions={ this.state.unsavedRevisions }
