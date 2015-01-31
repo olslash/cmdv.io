@@ -60,12 +60,12 @@ module.exports = {
     this.dispatch(constants.PAGE_LOADED, { path: urlPath });
   },
 
-  pristinePasteModified(parentKey) {
+  pristinePasteModified(parentKey, pasteContent) {
     var tempKey = `(unsaved) ${ ++uuidCounter }`;
-    this.dispatch(constants.PRISTINE_PASTE_MODIFIED, { parentKey, tempKey });
+    this.dispatch(constants.PRISTINE_PASTE_MODIFIED, { parentKey, tempKey, pasteContent });
   },
 
-  pasteModified(pasteID, newValue) {
-    this.dispatch(constants.PASTE_MODIFIED, { pasteID, newValue });
+  pasteModified(pasteID, pasteContent) {
+    this.dispatch(constants.PASTE_MODIFIED, { pasteID, pasteContent });
   }
 };

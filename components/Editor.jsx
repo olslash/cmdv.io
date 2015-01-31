@@ -9,38 +9,38 @@ module.exports = React.createClass({
   mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {
-    initialContent: React.PropTypes.string,
+    valueLink: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    onDirty: React.PropTypes.func // function to call when a paste is modified for the first time
+    onDirty: React.PropTypes.func, // function to call when a paste is modified for the first time
+    valueIsPristine: React.PropTypes.bool // is the content in valuelink an unmodified paste?
   },
 
   getInitialState: function () {
     return {
-      value: this.props.initialContent,
-      isClean: true
+      isClean: this.props.valueIsPristine
     };
   },
 
   componentWillReceiveProps(nextProps) {
+    console.log('got new props', nextProps.valueIsPristine, 'pristine');
     this.setState({
-      value: nextProps.initialContent,
-      isClean: true
+      isClean: nextProps.valueIsPristine
     });
   },
 
   _onChange(e) {
-    // fixme: should the application component hold all of the editor's state?
-    // could be issues with state.value held in editor component and in application component...
     var newValue = e.target.value;
 
     if(this.state.isClean) {
-      this.props.onDirty();
+      this.props.onDirty(newValue);
+    } else {
+      this.props.onChange(newValue);
     }
 
-    this.props.onChange(newValue);
+
 
     this.setState({
-      value: newValue,
+////      value: newValue,
       isClean: false
     });
   },
@@ -48,7 +48,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <section id="paste-content">
-        <textarea value={ this.state.value }
+        <textarea value={ this.props.valueLink }
                   onChange={ this._onChange }
                   autoComplete="off"
                   autoCapitalize="none"
