@@ -47,7 +47,7 @@ module.exports = Fluxxor.createStore({
   _onPasteSelected(payload) {
     var selectedPaste = this._pastes.get(payload.pasteID) || this._tempPastes.get(payload.pasteID);
 
-    if(!selectedPaste) { // not in memory-- ask for it from the server
+    if(selectedPaste === undefined) { // not in memory-- ask for it from the server
       helpers.callAsync(this.flux.actions.loadPaste, this, payload.pasteID);
     }
   },
