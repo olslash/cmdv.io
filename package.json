@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify -t [reactify --es6] App.jsx -o public/app.js",
+    "build": "browserify -t [reactify --es6] App.jsx -o public/app.js; stylus public/index.styl",
     "watch": "watchify -v -t [reactify --es6] App.jsx -o public/app.js",
     "start": "NODE_ENV=dev nodemon server/index.js",
     "serve": "cd public; python -m SimpleHTTPServer 8888"
