@@ -20,9 +20,9 @@ module.exports = React.createClass({
     var flux = this.getFlux();
 
     return {
-      currentKey:        flux.store('NavigationStore').getCurrentKey(),
-      currentRevisions:  flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
-      unsavedRevisions:  flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
+      currentKey:       flux.store('NavigationStore').getCurrentKey(),
+      currentRevisions: flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
+      unsavedRevisions: flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
       currentPasteData: flux.store('PasteStore').getPaste( flux.store('NavigationStore').getCurrentKey() )
     };
   },
@@ -35,7 +35,9 @@ module.exports = React.createClass({
 
   _saveCurrentPaste() {
     var parentPasteKey = this.state.currentRevisions.toJS()[0]; // could be any key in the chain.
-    this.getFlux().actions.savePaste(this.state.currentKey, parentPasteKey, this.state.currentPasteData.pasteContent);
+    this.getFlux().actions.savePaste(this.state.currentKey,
+                                     parentPasteKey,
+                                     this.state.currentPasteData.pasteContent);
   },
 
   _pasteContentChanged(newValue) {
@@ -50,11 +52,11 @@ module.exports = React.createClass({
         <div id="main-container">
           <ToolTip />
 
-          <Editor valueLink  =       { pasteData.pasteContent }
-                  onDirty    =       { this.getFlux().actions.pristinePasteModified
+          <Editor valueLink       = { pasteData.pasteContent }
+                  onDirty         = { this.getFlux().actions.pristinePasteModified
                                                              .bind(null, this.state.currentKey) }
-                  onChange   =      { this._pasteContentChanged }
-                  valueIsPristine = { pasteData.isClean  }/>
+                  onChange        = { this._pasteContentChanged }
+                  valueIsPristine = { pasteData.isClean } />
 
           <nav id="sidebar">
               <ButtonPanel>
@@ -65,11 +67,11 @@ module.exports = React.createClass({
                   <Button helpText="save the current paste (assigns a key and disables further editing)."
                           src="public/images/icon-save.png"
                           action={ this._saveCurrentPaste }
-                          disabled={ !pasteData.pasteContent.length > 0 }/>
+                          disabled={ !pasteData.pasteContent.length > 0 } />
               </ButtonPanel>
               <RevisionsList  currentRevisions={ this.state.currentRevisions }
                               unsavedRevisions={ this.state.unsavedRevisions }
-                              selectedRevision={ this.state.currentKey }/>
+                              selectedRevision={ this.state.currentKey } />
           </nav>
 
           <Footer />

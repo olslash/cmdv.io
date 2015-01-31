@@ -11,7 +11,8 @@ module.exports = Fluxxor.createStore({
     this.bindActions(
       constants.PAGE_LOADED, this._onPageLoad,
       constants.PASTE_SELECTED, this._onPasteSelected,
-      constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
+      constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
+      constants.PASTE_SAVED, this._onPasteSaved
     )
   },
 
@@ -42,13 +43,16 @@ module.exports = Fluxxor.createStore({
     this._emitChange();
   },
 
+  _onPasteSaved: function(payload) {
+    if(this._currentKey === payload.tempID) {
+      this._currentKey = payload.pasteID
+    }
+
+    this._emitChange();
+  },
+
   _onPristinePasteModified(payload) {
     this._currentKey = payload.tempKey;
     this._emitChange();
   }
-
-//  _onCurrentPasteModified(payload) {
-//    this._currentKey = payload.tempKey;
-//    this._emitChange();
-//  }
 });

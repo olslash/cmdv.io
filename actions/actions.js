@@ -6,7 +6,6 @@ var uuidCounter = 0;
 
 module.exports = {
   savePaste(tempID, parentID, pasteContent) {
-//    pasteID = pasteID || '';
     if(pasteContent.length === 0) {
       console.log('tried to save a paste with empty content');
     }

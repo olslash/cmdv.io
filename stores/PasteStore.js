@@ -9,6 +9,7 @@ module.exports = Fluxxor.createStore({
 
     this.bindActions(
       constants.PASTE_LOADED, this._onPasteLoaded,
+      constants.PASTE_SAVED, this._onPasteSaved,
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PASTE_MODIFIED, this._onPasteModified,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
@@ -40,6 +41,12 @@ module.exports = Fluxxor.createStore({
 
   _onPasteLoaded(payload) {
     this._pastes = this._pastes.set(payload.pasteID, payload.pasteContent);
+
+    this._emitChange();
+  },
+
+  _onPasteSaved(payload) {
+    this._tempPastes = this._tempPastes.delete(payload.tempID);
 
     this._emitChange();
   },
