@@ -23,7 +23,10 @@ module.exports = React.createClass({
       currentKey:       flux.store('NavigationStore').getCurrentKey(),
       currentRevisions: flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
       unsavedRevisions: flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
-      currentPasteData: flux.store('PasteStore').getPaste( flux.store('NavigationStore').getCurrentKey() )
+      currentPasteData: flux.store('PasteStore')
+                            .getPaste( flux.store('NavigationStore').getCurrentKey() ),
+      loadingRevisions: flux.store('PasteLoadingStore').getLoadingPastes(),
+      failedLoadingRevisions: flux.store('PasteLoadingStore').getFailedLoadingPastes()
     };
   },
 
@@ -69,9 +72,11 @@ module.exports = React.createClass({
                           action={ this._saveCurrentPaste }
                           disabled={ !pasteData.pasteContent.length > 0 } />
               </ButtonPanel>
-              <RevisionsList  currentRevisions={ this.state.currentRevisions }
-                              unsavedRevisions={ this.state.unsavedRevisions }
-                              selectedRevision={ this.state.currentKey } />
+              <RevisionsList  currentRevisions       = { this.state.currentRevisions }
+                              unsavedRevisions       = { this.state.unsavedRevisions }
+                              loadingRevisions       = { this.state.loadingRevisions }
+                              failedLoadingRevisions = { this.state.failedLoadingRevisions }
+                              selectedRevision       = { this.state.currentKey } />
           </nav>
 
           <Footer />

@@ -14,16 +14,31 @@ module.exports = React.createClass({
   propTypes: {
     currentRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
     unsavedRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
+    loadingRevisions: React.PropTypes.instanceOf(Immutable.Map), // immutableJS map
+    failedLoadingRevisions: React.PropTypes.instanceOf(Immutable.Map), // immutableJS map
     selectedRevision: React.PropTypes.string
   },
 
   render: function () {
     var pasteSelectedAction = this.getFlux().actions.pasteSelected;
+    var loading = this.props.loadingRevisions.toJS();
+    var failedLoading = this.props.failedLoadingRevisions.toJS();
 
-    var listItem = (text, classList) => <li onClick  ={ pasteSelectedAction.bind(null, text) }
-                                            className={ classList }
-                                            key      ={ text }>
-                                            { text } </li>;
+    function listItem(text, classList) {
+      return (
+        <li onClick  ={ pasteSelectedAction.bind(null, text) }
+            className={ classList }
+            key      ={ text }>
+
+          { text }
+
+          <img src="public/images/ajax-loader.gif"
+               className={ loading[text] || 'hidden' }/>
+          <img src="public/images/icon-fail.png"
+              className={ failedLoading[text] || 'hidden' }/>
+        </li>
+      )
+    };
 
     var currentItems = this.props.currentRevisions.toJS().map( pasteID => {
       var isActive = this.props.selectedRevision === pasteID;

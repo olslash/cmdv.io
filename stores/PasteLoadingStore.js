@@ -5,6 +5,7 @@ var Fluxxor = require('Fluxxor'),
 
 module.exports = Fluxxor.createStore({
   initialize: function () {
+    // todo: refactor to use Set instead of Map
     this._loadingPasteIDs = Immutable.Map();
     this._failedLoadingPasteIDs = Immutable.Map();
 
@@ -34,12 +35,14 @@ module.exports = Fluxxor.createStore({
   _onPasteLoading(payload) {
     this._loadingPasteIDs = this._loadingPasteIDs.set(payload.pasteID, true);
     this._failedLoadingPasteIDs = this._failedLoadingPasteIDs.delete(payload.pasteID);
+
     this._emitChange();
   },
 
   _onPasteLoaded(payload) {
     this._loadingPasteIDs = this._loadingPasteIDs.delete(payload.pasteID);
     this._failedLoadingPasteIDs = this._failedLoadingPasteIDs.delete(payload.pasteID);
+
     this._emitChange();
   },
 
