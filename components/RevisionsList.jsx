@@ -12,17 +12,17 @@ module.exports = React.createClass({
   mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {
-    currentRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
-    unsavedRevisions: React.PropTypes.instanceOf(Immutable.List), // immutableJS array
-    loadingRevisions: React.PropTypes.instanceOf(Immutable.Map), // immutableJS map
-    failedLoadingRevisions: React.PropTypes.instanceOf(Immutable.Map), // immutableJS map
+    currentRevisions: React.PropTypes.instanceOf(Immutable.List),
+    unsavedRevisions: React.PropTypes.instanceOf(Immutable.List),
+    loadingRevisions: React.PropTypes.instanceOf(Immutable.Set),
+    failedLoadingRevisions: React.PropTypes.instanceOf(Immutable.Set),
     selectedRevision: React.PropTypes.string
   },
 
   render: function () {
     var pasteSelectedAction = this.getFlux().actions.pasteSelected;
-    var loading = this.props.loadingRevisions.toJS();
-    var failedLoading = this.props.failedLoadingRevisions.toJS();
+    var loading = this.props.loadingRevisions.toObject();
+    var failedLoading = this.props.failedLoadingRevisions.toObject();
 
     function listItem(text, classList) {
       return (
@@ -33,12 +33,12 @@ module.exports = React.createClass({
           { text }
 
           <img src="public/images/ajax-loader.gif"
-               className={ loading[text] || 'hidden' }/>
+               className={ loading[text] || 'hidden' } />
           <img src="public/images/icon-fail.png"
-              className={ failedLoading[text] || 'hidden' }/>
+               className={ failedLoading[text] || 'hidden' } />
         </li>
       )
-    };
+    }
 
     var currentItems = this.props.currentRevisions.toJS().map( pasteID => {
       var isActive = this.props.selectedRevision === pasteID;
