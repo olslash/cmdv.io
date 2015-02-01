@@ -1,5 +1,5 @@
 var React = require('react'),
-    Fluxxor = require('Fluxxor'),
+    Fluxxor = require('fluxxor'),
     constants = require('./constants'),
     actions = require('./actions/actions'),
     stores = require('./stores'),
