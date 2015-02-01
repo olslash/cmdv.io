@@ -1,5 +1,6 @@
 module.exports = {
-  dbURL: 'mongodb://localhost/pasteclone',
-
+  dbURL: 'localhost/pasteclone',
+  dbUser: '',
+  dbPassword: '',
   keyLength: 8
 };

@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Promise  = require('bluebird');
 
 var config = require('../../server_config');
-mongoose.connect(config.dbURL);
+mongoose.connect(`mongodb://${config.dbUser}:${config.dbPassword}@${config.dbURL}`);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console));
 
