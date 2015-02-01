@@ -1,7 +1,8 @@
 var Fluxxor = require('fluxxor');
-var React = require('react');
+var React = require('react/addons');
 
-var FluxMixin = Fluxxor.FluxMixin(React);
+var FluxMixin = Fluxxor.FluxMixin(React),
+    cx        = React.addons.classSet;
 
 // Sidebar component
 module.exports = React.createClass({
@@ -15,8 +16,13 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    var classes = cx({
+      'icon': true,
+      'help': true,
+      'disabled': this.props.disabled
+    });
     return (
-        <img  className="icon help"
+        <img  className={ classes }
               src={ this.props.src }
               onClick={ this.props.disabled ? null : this.props.action }
               data-help={ this.props.helpText }/>
