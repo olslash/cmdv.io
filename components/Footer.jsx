@@ -24,8 +24,13 @@ module.exports = React.createClass({
     return (
       <footer id="footer">
         <div className="footer-content">
-          <span className="lang-select">Javascript</span>
-          <span className="detected">(detected)</span>
+          <div className="left">
+            <a className="about" href="//github.com/olslash/cmdv.io">[cmdv on github]</a>
+          </div>
+          <div className="right">
+            <span className="lang-select">Javascript</span>
+            <span className="detected">(detected)</span>
+          </div>
         </div>
       </footer>
     );

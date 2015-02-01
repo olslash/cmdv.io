@@ -67,9 +67,11 @@ module.exports = React.createClass({
           <nav id="sidebar">
               <ButtonPanel>
                   <Button helpText="create a new document, starting a new revision chain."
-                          src="public/images/icon-new.png" />
+                          src="public/images/icon-new.png"
+                          disabled={ true } />
                   <Button helpText="clone the current paste, starting a new revision chain."
-                          src="public/images/icon-clone.png" />
+                          src="public/images/icon-clone.png"
+                          disabled={ true } />
                   <Button helpText="save the current paste (assigns a key and disables further editing)."
                           src="public/images/icon-save.png"
                           action={ this._saveCurrentPaste }
