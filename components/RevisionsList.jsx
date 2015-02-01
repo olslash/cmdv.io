@@ -59,9 +59,12 @@ module.exports = React.createClass({
       return listItem(pasteID, classes, false)
     } );
 
+    var hideHeader = currentItems.length === 0 && unsavedItems.length === 0;
+    var headerClasses = cx({'hidden': hideHeader});
+
     return (
         <div className="sidebar-item">
-          <h1>REVISIONS</h1>
+          <h1 className={ headerClasses }>REVISIONS</h1>
           <ol className="revisions">{ currentItems }</ol>
           <ol className="revisions">{ unsavedItems }</ol>
         </div>
