@@ -24,9 +24,9 @@ module.exports = React.createClass({
     var loading = this.props.loadingRevisions.toObject();
     var failedLoading = this.props.failedLoadingRevisions.toObject();
 
-    function listItem(text, classList) {
+    function listItem(text, classList, setBrowserHistory) {
       return (
-        <li onClick  ={ pasteSelectedAction.bind(null, text) }
+        <li onClick  ={ pasteSelectedAction.bind(null, text, setBrowserHistory) }
             className={ classList }
             key      ={ text }>
 
@@ -46,7 +46,7 @@ module.exports = React.createClass({
         active: isActive
       });
 
-      return listItem(pasteID, classes);
+      return listItem(pasteID, classes, true);
     });
 
     var unsavedItems = this.props.unsavedRevisions.toJS().map( pasteID => {
@@ -56,7 +56,7 @@ module.exports = React.createClass({
         unsaved: true
       });
 
-      return listItem(pasteID, classes)
+      return listItem(pasteID, classes, false)
     } );
 
     return (

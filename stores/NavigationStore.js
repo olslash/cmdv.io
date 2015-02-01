@@ -25,10 +25,10 @@ module.exports = Fluxxor.createStore({
   },
 
   _setCurrentKey(pasteID, setHistory) {
-    this._currentKey = pasteID;
     if(setHistory && this._currentKey != pasteID) { // do not set history for the same paste twice
       history.pushState({ pasteID }, null, pasteID);
     }
+    this._currentKey = pasteID;
   },
 
   _onPageLoad: function(payload) {
