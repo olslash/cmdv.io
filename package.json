@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify -t [reactify --es6] App.jsx -o public/app.js; stylus ./stylesheets/index.styl -o public",
-    "watch": "watchify -v -t [reactify --es6] App.jsx -o public/app.js",
-    "watchcss": "stylus ./stylesheets/index.styl -w -o public",
+    "build": "node_modules/.bin/browserify -t [reactify --es6] App.jsx -o public/app.js; node_modules/.bin/stylus ./stylesheets/index.styl -o public",
+    "watch": "node_modules/.bin/watchify -v -t [reactify --es6] App.jsx -o public/app.js",
+    "watchcss": "node_modules/.bin/stylus ./stylesheets/index.styl -w -o public",
     "start": "NODE_ENV=dev nodemon server/index.js"
   },
   "author": "Mitch Robb",
@@ -25,6 +25,12 @@
     "underscore": "^1.7.0"
   },
   "devDependencies": {
-    "reactify": "^0.17.1"
+    "browserify": "^8.1.3",
+    "reactify": "^0.17.1",
+    "stylus": "^0.49.3",
+    "watchify": "^2.3.0"
+  },
+  "engines": {
+    "iojs": "1.0.x"
   }
 }
