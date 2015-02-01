@@ -75,7 +75,7 @@ module.exports = React.createClass({
                   <Button helpText="save the current paste (assigns a key and disables further editing)."
                           src="public/images/icon-save.png"
                           action={ this._saveCurrentPaste }
-                          disabled={ !pasteData.pasteContent.length > 0 } />
+                          disabled={ pasteData.pasteContent.length === 0 || pasteData.isClean} />
               </ButtonPanel>
               <RevisionsList  currentRevisions       = { this.state.currentRevisions }
                               unsavedRevisions       = { this.state.unsavedRevisions }
