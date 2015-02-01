@@ -3,3 +3,4 @@ node_modules
 data/db
 npm-debug.log
 server_config.js
+frontend_config.js
