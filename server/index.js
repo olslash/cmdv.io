@@ -1,7 +1,14 @@
-var express = require('express');
-var app = express();
+var express = require('express'),
+    cors = require('express-cors');
 
+var app = express();
 var port = process.env.PORT || 8000;
+
+app.use(cors({
+  allowedOrigins: [
+    '*.cmdv.io'
+  ]
+}));
 
 // fixme?
 app.set('views', __dirname + '/../');

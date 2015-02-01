@@ -17,6 +17,7 @@
     "body-parser": "^1.10.0",
     "ejs": "^1.0.0",
     "express": "^4.10.6",
+    "express-cors": "0.0.3",
     "fluxxor": "^1.5.1",
     "immutable": "^3.4.1",
     "mongoose": "^3.8.21",
