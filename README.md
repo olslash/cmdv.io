@@ -18,3 +18,11 @@ Install and run mongodb. If you use a non-default port or add user credentials, 
 You should see `app is listening on 8000`
 
 The server will run at `http://locahost:8000` by default.
+
+### Features in progress
+* Finish syntax detection and highlighting (90%)
+* Keyboard shortcuts (for actions and text editing-- like making `tab` work properly)
+* Enable the clone/new buttons
+* Make it isomorphic - with this comes functionality even when JS is disabled, and faster pageloads
+* Queryparams for highlighting lines or slices of a paste when sharing
+* CSS tweaks
