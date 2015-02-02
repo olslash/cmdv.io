@@ -1,5 +1,3 @@
-var Promise = require('bluebird');
-
 module.exports = helpers = {
   generateKey: function(length) {
       // alternate vowel and consonant
