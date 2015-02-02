@@ -4,7 +4,7 @@ module.exports = helpers = {
   generateKey: function(length) {
       // alternate vowel and consonant
       var vowels = ['a', 'e', 'i', 'o', 'u'];
-      var consonants = ['b', 'd', 'f', 'g', 'h', 'j', 'k', 'm', 'l', 'm', 'n', 'p', 'r', 's', 't', 'w', 'y'];
+      var consonants = ['b', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'w', 'y', 'z'];
 
       return new Array(length)
           .join('_').split('_')
