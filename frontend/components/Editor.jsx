@@ -12,7 +12,7 @@ module.exports = React.createClass({
     valueLink: React.PropTypes.string,
     onChange: React.PropTypes.func,
     onDirty: React.PropTypes.func, // function to call when a paste is modified for the first time
-    valueIsPristine: React.PropTypes.bool // is the content in valuelink an unmodified paste?
+    valueIsPristine: React.PropTypes.bool // is the content in valueLink an unmodified paste?
   },
 
   getInitialState: function () {
@@ -56,11 +56,13 @@ module.exports = React.createClass({
                               ref='contentArea' />
     } else {
       contentArea =
-                    <div ref='contentArea'
+                    <pre ref='contentArea'
                         className='contentArea'
                         onClick={ this._handleEditorClick }>
-                      { this.props.valueLink }
-                    </div>
+                      <code>
+                        { this.props.valueLink }
+                      </code>
+                    </pre>
     }
     return (
       <section id="paste-content">
