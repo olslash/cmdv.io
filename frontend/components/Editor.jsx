@@ -23,7 +23,8 @@ module.exports = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isClean: nextProps.valueIsPristine
+      isClean: nextProps.valueIsPristine,
+      showEditor: !nextProps.valueIsPristine
     });
   },
 
@@ -35,24 +36,35 @@ module.exports = React.createClass({
     } else {
       this.props.onChange(newValue);
     }
+  },
 
-
-
+  _handleEditorClick() {
     this.setState({
-////      value: newValue,
-      isClean: false
-    });
+      showEditor: true
+    })
   },
 
   render: function () {
+    var contentArea;
+    if(this.state.showEditor) {
+      contentArea = <textarea value={ this.props.valueLink }
+                              onChange={ this._onChange }
+                              autoComplete="off"
+                              autoCapitalize="none"
+                              spellCheck="false"
+                              autoFocus
+                              ref='contentArea' />
+    } else {
+      contentArea =
+                    <div ref='contentArea'
+                        className='contentArea'
+                        onClick={ this._handleEditorClick }>
+                      { this.props.valueLink }
+                    </div>
+    }
     return (
       <section id="paste-content">
-        <textarea value={ this.props.valueLink }
-                  onChange={ this._onChange }
-                  autoComplete="off"
-                  autoCapitalize="none"
-                  spellCheck="false"
-                  autoFocus />
+        { contentArea }
       </section>
     );
   }
