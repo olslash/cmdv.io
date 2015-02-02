@@ -35,13 +35,6 @@ module.exports = React.createClass({
     });
   },
 
-  componentDidUpdate() {
-    if(!this.state.showEditor && this.props.valueLink.length > 0) {
-      var pasteContentNode = this.refs['contentArea'].getDOMNode();
-      hljs.highlightBlock(pasteContentNode);
-    }
-  },
-
   _onChange(e) {
     var newValue = e.target.value;
 
@@ -66,16 +59,14 @@ module.exports = React.createClass({
                               autoComplete="off"
                               autoCapitalize="none"
                               spellCheck="false"
-                              autoFocus
-                              ref='contentArea' />
+                              autoFocus />
     } else {
+      var highlightResult = hljs.highlightAuto(this.props.valueLink);
       contentArea =
-                    <pre ref='contentArea'
+                    <pre
                         className='contentArea'
                         onClick={ this._handleEditorClick }>
-                      <code>
-                        { this.props.valueLink }
-                      </code>
+                      <code dangerouslySetInnerHTML={{ __html: highlightResult.value }} />
                     </pre>
     }
     return (
