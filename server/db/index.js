@@ -27,11 +27,9 @@ module.exports = {
               if (paste.length === 0) {
                 return Promise.reject('server error: History was not found');
               }
-              var result = { pasteID: paste[0].key,
-                             pasteContent: paste[0].content,
-                             revisions:history[0].revisions };
-
-              return result;
+              return { pasteID: paste[0].key,
+                       pasteContent: paste[0].content,
+                       revisions:history[0].revisions };
           });
       });
   },
@@ -41,11 +39,6 @@ module.exports = {
     return Paste.savePaste(content, existingKey).bind(this).then(function(key) {
       return this.retrievePaste(key)
     });
-  },
-
-  // generates a unique key, verifying there are no collisions
-  generateUniqueKey: function(length) {
-    return Paste.generateUniqueKey(length);
   },
 
   getRevisionHistoryForKey: function (key) {

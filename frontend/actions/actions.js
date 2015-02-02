@@ -1,6 +1,5 @@
 var config = require('../../frontend_config.js'),
-    constants = require('../constants'),
-    helpers   = require('../../helpers');
+    constants = require('../constants');
 
 var uuidCounter = 0;
 
