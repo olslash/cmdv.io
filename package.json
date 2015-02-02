@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node_modules/.bin/browserify -t [reactify --es6] App.jsx -o public/app.js; node_modules/.bin/stylus ./stylesheets/index.styl -o public",
-    "watch": "node_modules/.bin/watchify -v -t [reactify --es6] App.jsx -o public/app.js",
-    "watchcss": "node_modules/.bin/stylus ./stylesheets/index.styl -w -o public",
+    "build": "node_modules/.bin/browserify -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js; node_modules/.bin/stylus frontend/stylesheets/index.styl -o frontend/public",
+    "watch": "node_modules/.bin/watchify -v -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js",
+    "watchcss": "node_modules/.bin/stylus frontend/stylesheets/index.styl -w -o frontend/public",
     "start": "NODE_ENV=dev node_modules/.bin/nodemon server/index.js"
   },
   "author": "Mitch Robb",

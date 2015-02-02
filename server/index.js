@@ -11,11 +11,11 @@ app.use(cors({
 }));
 
 // fixme?
-app.set('views', __dirname + '/../');
+app.set('views', __dirname + '/../frontend');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-app.use('/public', express.static(__dirname + '/../public'));
+app.use('/public', express.static(__dirname + '/../frontend/public'));
 app.use('/', require('./controllers/index'));
 app.use('/pastes', require('./controllers/pastes'));
 
