@@ -6,7 +6,7 @@ var FluxMixin = Fluxxor.FluxMixin(React),
 
 // Editor component
 module.exports = React.createClass({
-  mixins: [FluxMixin, PureRenderMixin],
+  mixins: [FluxMixin],
 
   propTypes: {
     valueLink: React.PropTypes.string,
@@ -21,11 +21,25 @@ module.exports = React.createClass({
     };
   },
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // fixme: ugly
+    return !!(this.props.valueLink  !== nextProps.valueLink ||
+              this.state.isClean    !== nextState.isClean   ||
+              this.state.showEditor !== nextState.showEditor);
+  },
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       isClean: nextProps.valueIsPristine,
       showEditor: !nextProps.valueIsPristine
     });
+  },
+
+  componentDidUpdate() {
+    if(!this.state.showEditor && this.props.valueLink.length > 0) {
+      var pasteContentNode = this.refs['contentArea'].getDOMNode();
+      hljs.highlightBlock(pasteContentNode);
+    }
   },
 
   _onChange(e) {
