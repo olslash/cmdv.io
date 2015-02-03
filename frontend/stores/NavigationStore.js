@@ -83,7 +83,9 @@ module.exports = Fluxxor.createStore({
   _onPasteHighlighted: function(payload) {
     if(this._currentLanguage === null && payload.detectedLanguage !== undefined) {
       this._currentLanguage = payload.detectedLanguage;
-      console.log('setting language');
+      console.log('highlighted');
+      this._setCurrentKey(this._currentKey, true, true);
+
       this._emitChange();
     }
   }
