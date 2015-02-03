@@ -8,8 +8,9 @@ module.exports = React.createClass({
   mixins: [FluxMixin],
 
   propTypes: {
-//    onSave: React.PropTypes.func.isRequired,
-//    value: React.PropTypes.string
+    selectedLanguage: React.PropTypes.string,
+    allLanguages: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    onSelectLanguage: React.PropTypes.func.isRequired
   },
 
   getInitialState: function () {
@@ -28,8 +29,13 @@ module.exports = React.createClass({
             <a className="about" href="//github.com/olslash/cmdv.io">[cmdv on github]</a>
           </div>
           <div className="right">
-            <span className="lang-select">Javascript</span>
-            <span className="detected">(detected)</span>
+            <select className="lang-select" value={ this.props.selectedLanguage } >
+                // todo: recognize abbreviations for selected languages-- maybe a data- attribute?
+            { this.props.allLanguages.map((lang) => <option key  ={ lang }
+                                                            value={ lang } >
+                                                      { lang }
+                                                    </option> )}
+            </select>
           </div>
         </div>
       </footer>

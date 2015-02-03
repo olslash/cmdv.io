@@ -87,7 +87,9 @@ module.exports = React.createClass({
                               selectedRevision       = { this.state.currentKey } />
           </nav>
 
-          <Footer />
+          <Footer selectedLanguage={ this.state.currentLanguage }
+                  allLanguages={ hljs.listLanguages() }
+                  onSelectLanguage={ function() {} }/>
         </div>
     );
   }
