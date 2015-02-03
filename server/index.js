@@ -1,5 +1,6 @@
 var express = require('express'),
-    cors = require('express-cors');
+    cors = require('express-cors'),
+    compression = require('compression');
 
 var app = express();
 var port = process.env.PORT || 8000;
@@ -15,6 +16,7 @@ app.set('views', __dirname + '/../frontend');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
+app.use(compression());
 app.use('/public', express.static(__dirname + '/../frontend/public'));
 app.use('/', require('./controllers/index'));
 app.use('/pastes', require('./controllers/pastes'));
