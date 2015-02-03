@@ -1,5 +1,13 @@
 # cmdv.io
-a pastebin service with revisions.
+A revision-tracking pastebin service.
+
+####Tech:
+* Node(io.js)/Express
+* React/Flux
+* MongoDB/Mongoose
+* ImmutableJS
+* Stylus
+
 
 ### Running locally
 
