@@ -6,7 +6,7 @@ var constants = require('../constants');
 module.exports = Fluxxor.createStore({
   initialize: function () {
     this._currentKey = '';
-//    this. _currentLanguage = '';
+    this._currentLanguage = null;
 
     this.bindActions(
       constants.PAGE_LOADED, this._onPageLoad,
@@ -21,12 +21,25 @@ module.exports = Fluxxor.createStore({
   },
 
   getCurrentKey() {
-    return this._currentKey
+    return this._currentKey;
   },
 
-  _setCurrentKey(pasteID, setHistory) {
-    if(setHistory && this._currentKey != pasteID) { // do not set history for the same paste twice
-      history.pushState({ pasteID }, null, pasteID);
+  getCurrentLanguage() {
+    return this._currentLanguage;
+  },
+
+  _setCurrentKey(pasteID, setHistory, replaceState) {
+    // do not set history for the same paste twice -- unless we are doing a replaceState
+    if(setHistory && (this._currentKey !== pasteID || replaceState)) {
+
+      var newURLState = pasteID;
+
+      if(this._currentLanguage !== null) {
+        newURLState += ('.' + this._currentLanguage);
+      }
+
+      var method = replaceState ? 'replaceState' : 'pushState';
+      history[method]({ pasteID }, null, newURLState);
     }
     this._currentKey = pasteID;
   },
@@ -37,9 +50,10 @@ module.exports = Fluxxor.createStore({
     var routeComponents = path.match(routeRegex);
 
     if(routeComponents !== null) {
-      this._currentKey = routeComponents[1];
-      history.replaceState({ pasteID: routeComponents[1] }, null, routeComponents[1]);
-//      this.currentLanguage = routeComponents[2];
+      if(routeComponents[2].length > 0) {
+        this._currentLanguage = routeComponents[2];
+      }
+      this._setCurrentKey(routeComponents[1], true, true)
     }
 
     this._emitChange();
@@ -61,6 +75,7 @@ module.exports = Fluxxor.createStore({
 
   _onPristinePasteModified(payload) {
     this._setCurrentKey(payload.tempKey, false);
+
     this._emitChange();
   }
 });
