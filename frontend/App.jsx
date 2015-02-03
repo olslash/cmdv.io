@@ -1,4 +1,4 @@
-var React = require('react'),
+var React = require('react/addons'),
     Fluxxor = require('fluxxor'),
     constants = require('./constants'),
     actions = require('./actions/actions'),

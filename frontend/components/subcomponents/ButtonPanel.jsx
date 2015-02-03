@@ -1,5 +1,5 @@
 var Fluxxor = require('fluxxor'),
-    React = require('react');
+    React = require('react/addons');
 
 // ButtonPanel component
 module.exports = React.createClass({
