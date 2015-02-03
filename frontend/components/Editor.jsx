@@ -2,30 +2,27 @@ var Fluxxor = require('fluxxor');
 var React = require('react/addons');
 
 var FluxMixin = Fluxxor.FluxMixin(React),
-    PureRenderMixin = React.addons.PureRenderMixin;
+    PureRenderMixin = React.addons.PureRenderMixin,
+    helpers = require('../../helpers');
 
 // Editor component
 module.exports = React.createClass({
   mixins: [FluxMixin],
 
   propTypes: {
-    valueLink: React.PropTypes.string,
+    valueLink: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onDirty: React.PropTypes.func, // function to call when a paste is modified for the first time
-    valueIsPristine: React.PropTypes.bool // is the content in valueLink an unmodified paste?
+    onPasteHighlighted: React.PropTypes.func,
+    valueIsPristine: React.PropTypes.bool, // is the content in valueLink an unmodified paste?
+    language: React.PropTypes.string
   },
 
   getInitialState: function () {
     return {
-      isClean: this.props.valueIsPristine
+      isClean: this.props.valueIsPristine,
+      showEditor: false
     };
-  },
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // fixme: ugly
-    return !!(this.props.valueLink  !== nextProps.valueLink ||
-              this.state.isClean    !== nextState.isClean   ||
-              this.state.showEditor !== nextState.showEditor);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -33,6 +30,21 @@ module.exports = React.createClass({
       isClean: nextProps.valueIsPristine,
       showEditor: !nextProps.valueIsPristine
     });
+  },
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !!(this.props.valueLink !== nextProps.valueLink  ||
+              this.state.isClean !== nextState.isClean ||
+              this.state.showEditor !== nextState.showEditor);
+  },
+
+  componentDidUpdate() {
+    if(!this.state.showEditor && this.props.valueLink.length !== 0) {
+      var forceLanguage = this.props.language ? [this.props.language] : null;
+      var highlightResult = hljs.highlightAuto(this.props.valueLink, forceLanguage);
+      this.refs['codeBlock'].getDOMNode().innerHTML = highlightResult.value;
+      helpers.callAsync(this.props.onPasteHighlighted, null, highlightResult.language);
+    }
   },
 
   _onChange(e) {
@@ -61,12 +73,10 @@ module.exports = React.createClass({
                               spellCheck="false"
                               autoFocus />
     } else {
-      var highlightResult = hljs.highlightAuto(this.props.valueLink);
-      contentArea =
-                    <pre
+      contentArea = <pre
                         className='contentArea'
                         onClick={ this._handleEditorClick }>
-                      <code dangerouslySetInnerHTML={{ __html: highlightResult.value }} />
+                      <code ref='codeBlock' />
                     </pre>
     }
     return (

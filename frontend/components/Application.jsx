@@ -24,6 +24,7 @@ module.exports = React.createClass({
 
     return {
       currentKey:       flux.store('NavigationStore').getCurrentKey(),
+      currentLanguage : flux.store('NavigationStore').getCurrentLanguage(),
       currentRevisions: flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
       unsavedRevisions: flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
       currentPasteData: flux.store('PasteStore')
@@ -58,11 +59,13 @@ module.exports = React.createClass({
         <div id="main-container">
           <ToolTip />
 
-          <Editor valueLink       = { pasteData.pasteContent }
-                  onDirty         = { this.getFlux().actions.pristinePasteModified
-                                                             .bind(null, this.state.currentKey) }
-                  onChange        = { this._pasteContentChanged }
-                  valueIsPristine = { pasteData.isClean } />
+          <Editor valueLink          = { pasteData.pasteContent }
+                  onDirty            = { this.getFlux().actions.pristinePasteModified
+                                                               .bind(null, this.state.currentKey) }
+                  onChange           = { this._pasteContentChanged }
+                  onPasteHighlighted = { this.getFlux().actions.pasteHighlighted }
+                  valueIsPristine    = { pasteData.isClean }
+                  language           = { this.state.currentLanguage } />
 
           <nav id="sidebar">
               <ButtonPanel>

@@ -13,5 +13,6 @@ module.exports = {
   PASTE_SELECTED: 'PASTE_SELECTED', // user selects a paste to view
 
   PRISTINE_PASTE_MODIFIED: 'PRISTINE_PASTE_MODIFIED', // called by editor when a clean paste is edited by the user
-  PASTE_MODIFIED: 'PASTE_MODIFIED' // called by editor when a paste is changed
+  PASTE_MODIFIED: 'PASTE_MODIFIED', // called by editor when a paste is changed
+  PASTE_HIGHLIGHTED: 'PASTE_HIGHLIGHTED' // called by editor when a paste is changed
 };

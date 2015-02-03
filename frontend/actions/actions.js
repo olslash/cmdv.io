@@ -67,5 +67,9 @@ module.exports = {
 
   pasteModified(pasteID, pasteContent) {
     this.dispatch(constants.PASTE_MODIFIED, { pasteID, pasteContent });
+  },
+
+  pasteHighlighted(detectedLanguage) {
+    this.dispatch(constants.PASTE_HIGHLIGHTED, { detectedLanguage });
   }
 };

@@ -12,7 +12,8 @@ module.exports = Fluxxor.createStore({
       constants.PAGE_LOADED, this._onPageLoad,
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
-      constants.PASTE_SAVED, this._onPasteSaved
+      constants.PASTE_SAVED, this._onPasteSaved,
+      constants.PASTE_HIGHLIGHTED, this._onPasteHighlighted
     )
   },
 
@@ -65,17 +66,25 @@ module.exports = Fluxxor.createStore({
     this._emitChange();
   },
 
+  _onPristinePasteModified(payload) {
+    this._setCurrentKey(payload.tempKey, false);
+
+    this._emitChange();
+  },
+
   _onPasteSaved: function(payload) {
-    if(this._currentKey === payload.tempID) {
+    if (this._currentKey === payload.tempID) {
       this._setCurrentKey(payload.pasteID, true);
     }
 
     this._emitChange();
   },
 
-  _onPristinePasteModified(payload) {
-    this._setCurrentKey(payload.tempKey, false);
-
-    this._emitChange();
+  _onPasteHighlighted: function(payload) {
+    if(this._currentLanguage === null && payload.detectedLanguage !== undefined) {
+      this._currentLanguage = payload.detectedLanguage;
+      console.log('setting language');
+      this._emitChange();
+    }
   }
 });
