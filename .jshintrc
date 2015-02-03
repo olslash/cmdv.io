@@ -1,4 +1,5 @@
 {
   "esnext": true,
-  "strict": false
+  "strict": false,
+  "predef": ["hljs", "$"]
 }
