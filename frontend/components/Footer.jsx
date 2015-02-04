@@ -29,7 +29,9 @@ module.exports = React.createClass({
             <a className="about" href="//github.com/olslash/cmdv.io">[cmdv on github]</a>
           </div>
           <div className="right">
-            <select className="lang-select" value={ this.props.selectedLanguage } >
+            <select className="lang-select"
+                    value={ this.props.selectedLanguage }
+                    onChange={ function() {} } > //fixme
                 // todo: recognize abbreviations for selected languages-- maybe a data- attribute?
             { this.props.allLanguages.map((lang) => <option key  ={ lang }
                                                             value={ lang } >

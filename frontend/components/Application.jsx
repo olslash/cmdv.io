@@ -54,18 +54,20 @@ module.exports = React.createClass({
   render() {
     var pasteData = this.state.currentPasteData;
     var saveDisabled = pasteData.isClean || pasteData.pasteContent.length === 0;
-
+    var getHighlightedPasteForCurrentKey = this.getFlux()
+                                               .store('HighlightedPasteStore')
+                                               .getHighlightedPaste
+                                               .bind(null, this.state.currentKey);
     return (
         <div id="main-container">
           <ToolTip />
 
-          <Editor valueLink          = { pasteData.pasteContent }
-                  onDirty            = { this.getFlux().actions.pristinePasteModified
-                                                               .bind(null, this.state.currentKey) }
-                  onChange           = { this._pasteContentChanged }
-                  onPasteHighlighted = { this.getFlux().actions.pasteHighlighted }
-                  valueIsPristine    = { pasteData.isClean }
-                  language           = { this.state.currentLanguage } />
+          <Editor valueLink           = { pasteData.pasteContent }
+                  onDirty             = { this.getFlux().actions.pristinePasteModified
+                                                                .bind(null, this.state.currentKey) }
+                  onChange            = { this._pasteContentChanged }
+                  valueIsPristine     = { pasteData.isClean }
+                  getHighlightedValue = { getHighlightedPasteForCurrentKey } />
 
           <nav id="sidebar">
               <ButtonPanel>
@@ -89,8 +91,9 @@ module.exports = React.createClass({
 
           <Footer selectedLanguage={ this.state.currentLanguage }
                   allLanguages={ hljs.listLanguages() }
-                  onSelectLanguage={ function() {} }/>
+                  onSelectLanguage={ function() {} }/> // fixme
         </div>
     );
   }
 });
+// bug: when a highlighted paste is displayed, and you click to a new paste on the sidebar, and that paste fails to load, the pe

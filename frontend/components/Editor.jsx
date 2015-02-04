@@ -13,9 +13,8 @@ module.exports = React.createClass({
     valueLink: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onDirty: React.PropTypes.func, // function to call when a paste is modified for the first time
-    onPasteHighlighted: React.PropTypes.func,
     valueIsPristine: React.PropTypes.bool, // is the content in valueLink an unmodified paste?
-    language: React.PropTypes.string
+    getHighlightedValue: React.PropTypes.func.isRequired
   },
 
   getInitialState: function () {
@@ -36,15 +35,6 @@ module.exports = React.createClass({
     return !!(this.props.valueLink !== nextProps.valueLink  ||
               this.state.isClean !== nextState.isClean ||
               this.state.showEditor !== nextState.showEditor);
-  },
-
-  componentDidUpdate() {
-    if(!this.state.showEditor && this.props.valueLink.length !== 0) {
-      var forceLanguage = this.props.language ? [this.props.language] : null;
-      var highlightResult = hljs.highlightAuto(this.props.valueLink, forceLanguage);
-      this.refs['codeBlock'].getDOMNode().innerHTML = highlightResult.value;
-      helpers.callAsync(this.props.onPasteHighlighted, null, highlightResult.language);
-    }
   },
 
   _onChange(e) {
@@ -73,10 +63,12 @@ module.exports = React.createClass({
                               spellCheck="false"
                               autoFocus />
     } else {
+      var highlightedPasteContent = this.props.getHighlightedValue();
       contentArea = <pre
                         className='contentArea'
                         onClick={ this._handleEditorClick }>
-                      <code ref='codeBlock' />
+                      <code ref='codeBlock'
+                            dangerouslySetInnerHTML={{ __html: highlightedPasteContent }} />
                     </pre>
     }
     return (
