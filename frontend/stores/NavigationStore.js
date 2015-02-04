@@ -10,6 +10,7 @@ module.exports = Fluxxor.createStore({
 
     this.bindActions(
       constants.PAGE_LOADED, this._onPageLoad,
+      constants.PASTE_LOADED, this._onPasteLoaded,
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
       constants.PASTE_SAVED, this._onPasteSaved,
@@ -60,6 +61,17 @@ module.exports = Fluxxor.createStore({
     this._emitChange();
   },
 
+  _onPasteLoaded() {
+    this.waitFor(['HighlightedPasteStore'], function(HighlightedPasteStore) {
+      var detectedLanguage = HighlightedPasteStore.getDetectedLanguage();
+      if (this._currentLanguage === null && detectedLanguage !== null) {
+        this._currentLanguage = detectedLanguage;
+        this._setCurrentKey(this._currentKey, true, true); // force url update with type extension
+        this._emitChange();
+      }
+    });
+  },
+
   _onPasteSelected: function(payload) {
     this._setCurrentKey(payload.pasteID, payload.setHistory);
 
@@ -83,7 +95,6 @@ module.exports = Fluxxor.createStore({
   _onPasteHighlighted: function(payload) {
     if(this._currentLanguage === null && payload.detectedLanguage !== undefined) {
       this._currentLanguage = payload.detectedLanguage;
-      console.log('highlighted');
       this._setCurrentKey(this._currentKey, true, true);
 
       this._emitChange();

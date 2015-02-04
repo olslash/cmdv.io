@@ -13,20 +13,28 @@ module.exports = Fluxxor.createStore({
     );
   },
 
+  getDetectedLanguage() {
+    return this._initialDetectedLanguage;
+  },
+
   getHighlightedPaste(pasteID) {
     var rawPaste = this.flux.stores.PasteStore.getPaste(pasteID).pasteContent;
     if(rawPaste.length === 0) return '';
-
     var currentLanguage = this.flux.stores.NavigationStore.getCurrentLanguage();
 
-    var highlightResult = this._highlight(rawPaste, currentLanguage);
+    var cachedResult = this._tryCache(pasteID, currentLanguage);
+    if(cachedResult) {
+      return cachedResult.value;
+    } else {
+      var highlightResult = this._highlight(rawPaste, currentLanguage);
 
-    if(this._initialDetectedLanguage === null && highlightResult.language !== undefined) {
-      this._setDetectedLanguage(highlightResult.language);
-    }
-    this._cacheHighlightResult(pasteID, highlightResult.value, highlightResult.language);
+      if (this._initialDetectedLanguage === null && highlightResult.language !== undefined) {
+        this._setDetectedLanguage(highlightResult.language);
+      }
+      this._cacheHighlightResult(pasteID, highlightResult.value, highlightResult.language);
 //    this._emitChange();
-    return highlightResult.value;
+      return highlightResult.value;
+    }
   },
 
   _onPasteLoaded(payload) {
@@ -37,8 +45,18 @@ module.exports = Fluxxor.createStore({
     this._cacheHighlightResult(payload.pasteID, highlightResult.value, highlightResult.language);
   },
 
+  _tryCache(pasteID, language) {
+    var existingCachedResult = this._highlightedPastes.get(pasteID);
+    if (existingCachedResult === undefined || existingCachedResult.toJS().language !== language) {
+      // cache miss
+      return false;
+    }
+    // cache hit
+    return existingCachedResult.toJS();
+  },
+
   _highlight(value, languages) {
-    if(languages !== undefined && !Array.isArray(languages)) {
+    if(languages && !Array.isArray(languages)) {
       languages = [languages];
     }
 
@@ -46,22 +64,14 @@ module.exports = Fluxxor.createStore({
   },
 
   _cacheHighlightResult(pasteID, result, language) {
-    var existingCachedResult = this._highlightedPastes.get(pasteID);
-
-    if(existingCachedResult === undefined || existingCachedResult.toJS().language !== language) {
-      var pasteMap = Immutable.Map({
-        pasteContent: result,
-        language: language || null
-      });
-      this._highlightedPastes = this._highlightedPastes.set(pasteID, pasteMap);
-    }
+    var pasteMap = Immutable.Map({
+      value: result,
+      language: language || null
+    });
+    this._highlightedPastes = this._highlightedPastes.set(pasteID, pasteMap);
   },
 
   _setDetectedLanguage(language) {
     this._initialDetectedLanguage = language;
   }
-
-//  _emitChange() {
-//    this.emit('change')
-//  }
 });
