@@ -3,7 +3,7 @@ var Fluxxor = require('fluxxor'),
     constants = require('../constants');
 
 module.exports = Fluxxor.createStore({
-  initialize: function () {
+  initialize() {
     // cache highlighted results along with the language they were highlighted with
     this._highlightedPastes = Immutable.Map();
     this._initialDetectedLanguage = null;

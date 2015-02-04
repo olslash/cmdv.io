@@ -14,7 +14,7 @@ module.exports = Fluxxor.createStore({
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
       constants.PASTE_SAVED, this._onPasteSaved,
-      constants.PASTE_HIGHLIGHTED, this._onPasteHighlighted
+      constants.LANGUAGE_SELECTED, this._onLanguageSelected
     )
   },
 
@@ -46,7 +46,12 @@ module.exports = Fluxxor.createStore({
     this._currentKey = pasteID;
   },
 
-  _onPageLoad: function(payload) {
+  _setCurrentLanguage(language) {
+    this._currentLanguage = language;
+    this._setCurrentKey(this._currentKey, true, true); // force url update with type extension
+  },
+
+  _onPageLoad(payload) {
     var path = payload.path;
     var routeRegex = /^\/([a-zA-Z]+)\.?([a-zA-Z]*)$/; // '/(key).(language)?'
     var routeComponents = path.match(routeRegex);
@@ -65,14 +70,13 @@ module.exports = Fluxxor.createStore({
     this.waitFor(['HighlightedPasteStore'], function(HighlightedPasteStore) {
       var detectedLanguage = HighlightedPasteStore.getDetectedLanguage();
       if (this._currentLanguage === null && detectedLanguage !== null) {
-        this._currentLanguage = detectedLanguage;
-        this._setCurrentKey(this._currentKey, true, true); // force url update with type extension
+        this._setCurrentLanguage(detectedLanguage);
         this._emitChange();
       }
     });
   },
 
-  _onPasteSelected: function(payload) {
+  _onPasteSelected(payload) {
     this._setCurrentKey(payload.pasteID, payload.setHistory);
 
     this._emitChange();
@@ -84,7 +88,7 @@ module.exports = Fluxxor.createStore({
     this._emitChange();
   },
 
-  _onPasteSaved: function(payload) {
+  _onPasteSaved(payload) {
     if (this._currentKey === payload.tempID) {
       this._setCurrentKey(payload.pasteID, true);
     }
@@ -92,12 +96,8 @@ module.exports = Fluxxor.createStore({
     this._emitChange();
   },
 
-  _onPasteHighlighted: function(payload) {
-    if(this._currentLanguage === null && payload.detectedLanguage !== undefined) {
-      this._currentLanguage = payload.detectedLanguage;
-      this._setCurrentKey(this._currentKey, true, true);
-
-      this._emitChange();
-    }
+  _onLanguageSelected(payload) {
+    this._setCurrentLanguage(payload.language);
+    this._emitChange();
   }
 });

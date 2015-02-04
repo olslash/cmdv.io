@@ -17,7 +17,15 @@ module.exports = React.createClass({
     getHighlightedValue: React.PropTypes.func.isRequired
   },
 
-  getInitialState: function () {
+  componentDidMount() {
+    this.getFlux().store('NavigationStore').on('change', this.forceUpdate.bind(this))
+  },
+
+  componentWillUnmount() {
+    this.removeAllListeners();
+  },
+
+  getInitialState() {
     return {
       isClean: this.props.valueIsPristine,
       showEditor: false
@@ -53,7 +61,7 @@ module.exports = React.createClass({
     })
   },
 
-  render: function () {
+  render() {
     var contentArea;
     if(this.state.showEditor) {
       contentArea = <textarea value={ this.props.valueLink }

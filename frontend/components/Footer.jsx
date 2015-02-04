@@ -17,8 +17,9 @@ module.exports = React.createClass({
     return {};
   },
 
-  componentDidMount: function () {
-
+  _onLanguageSelectionChange(e) {
+    var newLang = e.target.selectedOptions[0].innerText;
+    this.props.onSelectLanguage(newLang);
   },
 
   render: function () {
@@ -31,7 +32,7 @@ module.exports = React.createClass({
           <div className="right">
             <select className="lang-select"
                     value={ this.props.selectedLanguage }
-                    onChange={ function() {} } > //fixme
+                    onChange={ this._onLanguageSelectionChange } >
                 // todo: recognize abbreviations for selected languages-- maybe a data- attribute?
             { this.props.allLanguages.map((lang) => <option key  ={ lang }
                                                             value={ lang } >

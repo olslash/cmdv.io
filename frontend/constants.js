@@ -11,8 +11,8 @@ module.exports = {
 
   PAGE_LOADED: 'PAGE_LOADED', // the site has loaded, at a particular URL
   PASTE_SELECTED: 'PASTE_SELECTED', // user selects a paste to view
+  LANGUAGE_SELECTED: 'LANGUAGE_SELECTED', // user selects a language from the selectbox
 
   PRISTINE_PASTE_MODIFIED: 'PRISTINE_PASTE_MODIFIED', // called by editor when a clean paste is edited by the user
-  PASTE_MODIFIED: 'PASTE_MODIFIED', // called by editor when a paste is changed
-  PASTE_HIGHLIGHTED: 'PASTE_HIGHLIGHTED' // called by editor when a paste is changed
+  PASTE_MODIFIED: 'PASTE_MODIFIED' // called by editor when a paste is changed
 };
