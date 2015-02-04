@@ -9,7 +9,7 @@ A revision-tracking pastebin service.
 * Stylus
 
 ![cmdv.io]
-(http://i.imgur.com/racqWsZ.png)
+(http://i.imgur.com/o3DiOaK.png)
 
 ### Running locally
 
@@ -30,7 +30,7 @@ You should see `app is listening on 8000`
 The server will run at `http://locahost:8000` by default.
 
 ### Features in progress
-* Finish syntax detection and highlighting (90%)
+* Final bugfixes related to highlighting
 * Keyboard shortcuts (for actions and text editing-- like making `tab` work properly)
 * Enable the clone/new buttons
 * Make it isomorphic - with this comes functionality even when JS is disabled, and faster pageloads
