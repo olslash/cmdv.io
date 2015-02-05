@@ -23,6 +23,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    this.props.allLanguages.unshift('');
     return (
       <footer id="footer">
         <div className="footer-content">
@@ -34,10 +35,10 @@ module.exports = React.createClass({
                     value={ this.props.selectedLanguage }
                     onChange={ this._onLanguageSelectionChange } >
                 // todo: recognize abbreviations for selected languages-- maybe a data- attribute?
-            { this.props.allLanguages.map((lang) => <option key  ={ lang }
-                                                            value={ lang } >
-                                                      { lang }
-                                                    </option> )}
+              { this.props.allLanguages.map((lang) => <option key  ={ lang }
+                                                              value={ lang } >
+                                                        { lang }
+                                                      </option> )}
             </select>
           </div>
         </div>
