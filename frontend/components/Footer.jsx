@@ -31,6 +31,7 @@ module.exports = React.createClass({
             <a className="about" href="//github.com/olslash/cmdv.io">[cmdv on github]</a>
           </div>
           <div className="right">
+            <span>language: </span>
             <select className="lang-select"
                     value={ this.props.selectedLanguage }
                     onChange={ this._onLanguageSelectionChange } >
