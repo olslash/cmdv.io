@@ -26,7 +26,7 @@ module.exports = React.createClass({
 
     function listItem(text, classList, setBrowserHistory) {
       return (
-        <li onClick  ={ pasteSelectedAction.bind(null, text, setBrowserHistory) }
+        <li onClick  ={ pasteSelectedAction.bind(null, text, setBrowserHistory, false) }
             className={ classList }
             key      ={ text }>
 

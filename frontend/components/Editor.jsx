@@ -11,18 +11,10 @@ module.exports = React.createClass({
 
   propTypes: {
     valueLink: React.PropTypes.string.isRequired,
+    highlightedValue: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onDirty: React.PropTypes.func, // function to call when a paste is modified for the first time
-    valueIsPristine: React.PropTypes.bool, // is the content in valueLink an unmodified paste?
-    getHighlightedValue: React.PropTypes.func.isRequired
-  },
-
-  componentDidMount() {
-    this.getFlux().store('NavigationStore').on('change', this.forceUpdate.bind(this))
-  },
-
-  componentWillUnmount() {
-    this.removeAllListeners();
+    valueIsPristine: React.PropTypes.bool // is the content in valueLink an unmodified paste?
   },
 
   getInitialState() {
@@ -40,7 +32,9 @@ module.exports = React.createClass({
   },
 
   shouldComponentUpdate(nextProps, nextState) {
+    // fixme? more generic?
     return !!(this.props.valueLink !== nextProps.valueLink  ||
+              this.props.highlightedValue !== nextProps.highlightedValue ||
               this.state.isClean !== nextState.isClean ||
               this.state.showEditor !== nextState.showEditor);
   },
@@ -58,7 +52,7 @@ module.exports = React.createClass({
   _handleEditorClick() {
     this.setState({
       showEditor: true
-    })
+    });
   },
 
   render() {
@@ -71,12 +65,11 @@ module.exports = React.createClass({
                               spellCheck="false"
                               autoFocus />
     } else {
-      var highlightedPasteContent = this.props.getHighlightedValue();
       contentArea = <pre
                         className='contentArea'
                         onClick={ this._handleEditorClick }>
                       <code ref='codeBlock'
-                            dangerouslySetInnerHTML={{ __html: highlightedPasteContent }} />
+                            dangerouslySetInnerHTML={{ __html: this.props.highlightedValue }} />
                     </pre>
     }
     return (

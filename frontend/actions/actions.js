@@ -50,10 +50,10 @@ module.exports = {
       });
   },
 
-  pasteSelected(pasteID, setHistory) {
+  pasteSelected(pasteID, setHistory, replaceState) {
     if(setHistory === undefined) setHistory = true;
 
-    this.dispatch(constants.PASTE_SELECTED, { pasteID, setHistory });
+    this.dispatch(constants.PASTE_SELECTED, { pasteID, setHistory, replaceState });
   },
 
   pageLoaded(urlPath) {

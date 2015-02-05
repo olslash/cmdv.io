@@ -21,16 +21,21 @@ module.exports = React.createClass({
 
   getStateFromFlux() {
     var flux = this.getFlux();
+    var NavigationStore       = flux.store('NavigationStore');
+    var PasteRevisionsStore   = flux.store('PasteRevisionsStore');
+    var PasteStore            = flux.store('PasteStore');
+    var PasteLoadingStore     = flux.store('PasteLoadingStore');
+    var HighlightedPasteStore = flux.store('HighlightedPasteStore');
 
     return {
-      currentKey:       flux.store('NavigationStore').getCurrentKey(),
-      currentLanguage : flux.store('NavigationStore').getCurrentLanguage(),
-      currentRevisions: flux.store('PasteRevisionsStore').getRevisionsOfCurrentPaste(),
-      unsavedRevisions: flux.store('PasteRevisionsStore').getUnsavedRevisionsOfCurrentPaste(),
-      currentPasteData: flux.store('PasteStore')
-                            .getPaste( flux.store('NavigationStore').getCurrentKey() ),
-      loadingRevisions: flux.store('PasteLoadingStore').getLoadingPastes(),
-      failedLoadingRevisions: flux.store('PasteLoadingStore').getFailedLoadingPastes()
+      currentKey:             NavigationStore.getCurrentKey(),
+      currentLanguage :       NavigationStore.getCurrentLanguage(),
+      currentRevisions:       PasteRevisionsStore.getRevisionsOfCurrentPaste(),
+      unsavedRevisions:       PasteRevisionsStore.getUnsavedRevisionsOfCurrentPaste(),
+      currentPasteData:       PasteStore.getPaste( NavigationStore.getCurrentKey() ),
+      highlightedPasteData:   HighlightedPasteStore.getHighlightedPaste( NavigationStore.getCurrentKey() ),
+      loadingRevisions:       PasteLoadingStore.getLoadingPastes(),
+      failedLoadingRevisions: PasteLoadingStore.getFailedLoadingPastes()
     };
   },
 
@@ -53,11 +58,8 @@ module.exports = React.createClass({
 
   render() {
     var pasteData = this.state.currentPasteData;
-    var saveDisabled = pasteData.isClean || pasteData.pasteContent.length === 0;
-    var getHighlightedPasteForCurrentKey = this.getFlux()
-                                               .store('HighlightedPasteStore')
-                                               .getHighlightedPaste
-                                               .bind(null, this.state.currentKey);
+    var highlightedPasteData = this.state.highlightedPasteData;
+
     return (
         <div id="main-container">
           <ToolTip />
@@ -67,7 +69,7 @@ module.exports = React.createClass({
                                                                 .bind(null, this.state.currentKey) }
                   onChange            = { this._pasteContentChanged }
                   valueIsPristine     = { pasteData.isClean }
-                  getHighlightedValue = { getHighlightedPasteForCurrentKey } />
+                  highlightedValue    = { highlightedPasteData } />
 
           <nav id="sidebar">
               <ButtonPanel>

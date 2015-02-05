@@ -7,10 +7,6 @@ module.exports = Fluxxor.createStore({
     // cache highlighted results along with the language they were highlighted with
     this._highlightedPastes = Immutable.Map();
     this._initialDetectedLanguage = null;
-
-    this.bindActions(
-        constants.PASTE_LOADED, this._onPasteLoaded
-    );
   },
 
   getDetectedLanguage() {
@@ -32,17 +28,8 @@ module.exports = Fluxxor.createStore({
         this._setDetectedLanguage(highlightResult.language);
       }
       this._cacheHighlightResult(pasteID, highlightResult.value, highlightResult.language);
-//    this._emitChange();
       return highlightResult.value;
     }
-  },
-
-  _onPasteLoaded(payload) {
-    var highlightResult = this._highlight(payload.pasteContent);
-    if (this._initialDetectedLanguage === null && highlightResult.language !== undefined) {
-      this._setDetectedLanguage(highlightResult.language)
-    }
-    this._cacheHighlightResult(payload.pasteID, highlightResult.value, highlightResult.language);
   },
 
   _tryCache(pasteID, language) {
@@ -59,7 +46,6 @@ module.exports = Fluxxor.createStore({
     if(languages && !Array.isArray(languages)) {
       languages = [languages];
     }
-
     return hljs.highlightAuto(value, languages);
   },
 
