@@ -93,6 +93,7 @@ module.exports = React.createClass({
 
           <Footer selectedLanguage={ this.state.currentLanguage }
                   allLanguages={ hljs.listLanguages() }
+                  languageSelectDisabled={ !pasteData.isClean }
                   onSelectLanguage={ this.getFlux().actions.languageSelected.bind(null) }/>
         </div>
     );
