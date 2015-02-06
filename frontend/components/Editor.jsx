@@ -24,6 +24,13 @@ module.exports = React.createClass({
     };
   },
 
+  componentDidMount() {
+    Mousetrap.bind(['tab'], (e) => {
+      e.preventDefault();
+      this._insertTabAtCursor();
+    });
+  },
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       isClean: nextProps.valueIsPristine,
@@ -39,8 +46,8 @@ module.exports = React.createClass({
               this.state.showEditor !== nextState.showEditor);
   },
 
-  _onChange(e) {
-    var newValue = e.target.value;
+  _onChange(e, overrideVal) {
+    var newValue = overrideVal ? overrideVal : e.target.value;
 
     if(this.state.isClean) {
       this.props.onDirty(newValue);
@@ -55,10 +62,29 @@ module.exports = React.createClass({
     });
   },
 
+  _insertTabAtCursor() {
+    if(!this.state.isClean) {
+      var textArea = this.refs.textArea.getDOMNode();
+      var start = textArea.selectionStart;
+      var end = textArea.selectionEnd;
+
+      var target = textArea;
+      var value = target.value;
+      target.value = value.substring(0, start)
+      + "\t"
+      + value.substring(end);
+
+      textArea.selectionStart = textArea.selectionEnd = start + 1;
+
+      this._onChange(null, target.value);
+    }
+  },
+
   render() {
     var contentArea;
     if(this.state.showEditor) {
-      contentArea = <textarea className="mousetrap"
+      contentArea = <textarea ref='textArea'
+                              className="mousetrap"
                               value={ this.props.valueLink }
                               onChange={ this._onChange }
                               autoComplete="off"

@@ -52,10 +52,6 @@ module.exports = React.createClass({
       e.preventDefault();
       this._saveCurrentPaste();
     });
-
-    Mousetrap.bind([], (e) => {
-
-    });
   },
 
   _saveCurrentPaste() {
