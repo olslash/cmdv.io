@@ -3,8 +3,8 @@ var React = require('react/addons');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 
-// Sidebar component
-module.exports = React.createClass({
+var ToolTip;
+module.exports = ToolTip = React.createClass({
   mixins: [FluxMixin],
 
   propTypes: {},

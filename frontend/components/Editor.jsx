@@ -5,8 +5,8 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     PureRenderMixin = React.addons.PureRenderMixin,
     helpers = require('../../helpers');
 
-// Editor component
-module.exports = React.createClass({
+var Editor;
+module.exports = Editor = React.createClass({
   mixins: [FluxMixin],
 
   propTypes: {

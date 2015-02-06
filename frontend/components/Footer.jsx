@@ -3,8 +3,8 @@ var React = require('react/addons');
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 
-// Footer component
-module.exports = React.createClass({
+var Footer;
+module.exports = Footer = React.createClass({
   mixins: [FluxMixin],
 
   propTypes: {

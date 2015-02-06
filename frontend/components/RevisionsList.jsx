@@ -7,8 +7,8 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     PureRenderMixin = React.addons.PureRenderMixin,
     cx = React.addons.classSet;
 
-// Sidebar component
-module.exports = React.createClass({
+var RevisionsList;
+module.exports = RevisionsList = React.createClass({
   mixins: [FluxMixin, PureRenderMixin],
 
   propTypes: {

@@ -4,8 +4,8 @@ var React = require('react/addons');
 var FluxMixin = Fluxxor.FluxMixin(React),
     cx        = React.addons.classSet;
 
-// Sidebar component
-module.exports = React.createClass({
+var Button;
+module.exports = Button = React.createClass({
   mixins: [FluxMixin],
 
   propTypes: {

@@ -12,8 +12,8 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin,
     PureRenderMixin = React.addons.PureRenderMixin;
 
-// Application component
-module.exports = React.createClass({
+var Application;
+module.exports = Application = React.createClass({
   mixins: [FluxMixin, PureRenderMixin, StoreWatchMixin('PasteStore',
                                                        'NavigationStore',
                                                        'PasteRevisionsStore',

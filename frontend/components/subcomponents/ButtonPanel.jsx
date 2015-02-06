@@ -1,8 +1,8 @@
 var Fluxxor = require('fluxxor'),
     React = require('react/addons');
 
-// ButtonPanel component
-module.exports = React.createClass({
+var ButtonPanel;
+module.exports = ButtonPanel = React.createClass({
   render() {
     return (
         <div className="buttons-container">
