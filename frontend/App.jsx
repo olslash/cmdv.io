@@ -5,6 +5,7 @@ var React = require('react/addons'),
     stores = require('./stores'),
     Application = require('./components/Application.jsx');
 
+require('Mousetrap'); // global Mousetrap object
 
 var flux = new Fluxxor.Flux(stores, actions);
 //window.flux = flux;
@@ -22,3 +23,4 @@ window.addEventListener('popstate', function (e) {
 
 flux.actions.pageLoaded(document.location.pathname);
 React.render(<Application flux={flux} />, document.getElementById("app"));
+

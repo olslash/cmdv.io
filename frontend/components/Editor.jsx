@@ -58,16 +58,16 @@ module.exports = React.createClass({
   render() {
     var contentArea;
     if(this.state.showEditor) {
-      contentArea = <textarea value={ this.props.valueLink }
+      contentArea = <textarea className="mousetrap"
+                              value={ this.props.valueLink }
                               onChange={ this._onChange }
                               autoComplete="off"
                               autoCapitalize="none"
                               spellCheck="false"
                               autoFocus />
     } else {
-      contentArea = <pre
-                        className='contentArea'
-                        onClick={ this._handleEditorClick }>
+      contentArea = <pre className='contentArea'
+                         onClick={ this._handleEditorClick }>
                       <code ref='codeBlock'
                             dangerouslySetInnerHTML={{ __html: this.props.highlightedValue }} />
                     </pre>

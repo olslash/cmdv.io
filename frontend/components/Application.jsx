@@ -1,5 +1,5 @@
-var Fluxxor = require('fluxxor'),
-    React   = require('react/addons');
+var Fluxxor   = require('fluxxor'),
+    React     = require('react/addons');
 
 var Editor        = require('./Editor.jsx'),
     ToolTip       = require('./subcomponents/Tooltip.jsx'),
@@ -43,17 +43,37 @@ module.exports = React.createClass({
     if(this.state.currentKey.length > 0) {
       this.getFlux().actions.loadPaste(this.state.currentKey)
     }
+
+    this._setKeybindings();
+  },
+
+  _setKeybindings() {
+    Mousetrap.bind(['meta+s', 'ctrl+s'], (e) => {
+      e.preventDefault();
+      this._saveCurrentPaste();
+    });
+
+    Mousetrap.bind([], (e) => {
+
+    });
   },
 
   _saveCurrentPaste() {
-    var parentPasteKey = this.state.currentRevisions.toJS()[0]; // could be any key in the chain.
-    this.getFlux().actions.savePaste(this.state.currentKey,
-                                     parentPasteKey,
-                                     this.state.currentPasteData.pasteContent);
+    if(!this._saveIsDisabled()){
+      var parentPasteKey = this.state.currentRevisions.toJS()[0]; // could be any key in the chain.
+      this.getFlux().actions.savePaste(this.state.currentKey,
+                                       parentPasteKey,
+                                       this.state.currentPasteData.pasteContent);
+    }
   },
 
   _pasteContentChanged(newValue) {
     this.getFlux().actions.pasteModified(this.state.currentKey, newValue);
+  },
+
+  _saveIsDisabled() {
+    var pasteData = this.state.currentPasteData;
+    return pasteData.pasteContent.length === 0 || pasteData.isClean
   },
 
   render() {
@@ -82,7 +102,7 @@ module.exports = React.createClass({
                   <Button helpText="save the current paste (assigns a key and disables further editing)."
                           src="public/images/icon-save.png"
                           action={ this._saveCurrentPaste }
-                          disabled={ pasteData.pasteContent.length === 0 || pasteData.isClean} />
+                          disabled={ this._saveIsDisabled() } />
               </ButtonPanel>
               <RevisionsList  currentRevisions       = { this.state.currentRevisions }
                               unsavedRevisions       = { this.state.unsavedRevisions }
