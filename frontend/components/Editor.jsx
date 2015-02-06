@@ -25,10 +25,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount() {
-    Mousetrap.bind(['tab'], (e) => {
-      e.preventDefault();
-      this._insertTabAtCursor();
-    });
+    this._setKeybindings();
   },
 
   componentWillReceiveProps(nextProps) {
@@ -44,6 +41,14 @@ module.exports = React.createClass({
               this.props.highlightedValue !== nextProps.highlightedValue ||
               this.state.isClean !== nextState.isClean ||
               this.state.showEditor !== nextState.showEditor);
+  },
+
+  _setKeybindings() {
+    Mousetrap.bind(['tab'], (e) => {
+      // tabs in editor
+      e.preventDefault();
+      this._insertTabAtCursor();
+    });
   },
 
   _onChange(e, overrideVal) {

@@ -49,8 +49,14 @@ module.exports = React.createClass({
 
   _setKeybindings() {
     Mousetrap.bind(['meta+s', 'ctrl+s'], (e) => {
+      // save with cmd/ctrl-s
       e.preventDefault();
       this._saveCurrentPaste();
+    });
+
+    Mousetrap.bind('esc', () => {
+      // esc to return from editor to highlighted version of a paste
+      this.getFlux().actions.pasteSelected(this.state.currentKey, false, false);
     });
   },
 
