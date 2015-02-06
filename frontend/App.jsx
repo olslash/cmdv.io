@@ -5,7 +5,6 @@ var React = require('react/addons'),
     stores = require('./stores'),
     Application = require('./components/Application.jsx');
 
-require('Mousetrap'); // global Mousetrap object
 
 var flux = new Fluxxor.Flux(stores, actions);
 //window.flux = flux;
