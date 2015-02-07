@@ -2,8 +2,11 @@ var mongoose = require('mongoose'),
     Promise  = require('bluebird');
 
 var History = require('./historyModel'),
-    helpers = require('../../helpers'),
-    config = require('../../server_config');
+    helpers = require('../../helpers');
+
+var config = process.env.NODE_ENV === 'test' ?
+    require('../../__tests__/test_server_config') :
+    require('../../server_config');
 
 var pasteSchema = mongoose.Schema({
   key: {type: String, unique: true},
@@ -51,8 +54,8 @@ pasteSchema.statics._generateUniqueKey = function(length) {
       })
 
       .catch(function (err) {
-        return this._generateUniqueKey(length);
-      });
+        return this._generateUniqueKey(length)
+      }.bind(this));
   }.bind(this));
 };
 
@@ -62,7 +65,7 @@ pasteSchema.statics._verifyKeyIsUnique = function(key) {
       if (key.length === 0) {
         return resolve();
       } else {
-        return reject();
+        return reject('key already exists!');
       }
     });
   }.bind(this));

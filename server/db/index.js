@@ -1,14 +1,17 @@
 var mongoose = require('mongoose'),
     Promise  = require('bluebird');
 
-var config = require('../../server_config');
+var config = process.env.NODE_ENV === 'test' ?
+    require('../../__tests__/test_server_config') :
+    require('../../server_config');
+
 mongoose.connect(`mongodb://${config.dbUser}:${config.dbPassword}@${config.dbURL}`);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console));
 
-//db.once('open', function() {
-//
-//});
+db.once('open', function() {
+
+});
 
 var Paste = require('./pasteModel');
 var History = require('./historyModel');
