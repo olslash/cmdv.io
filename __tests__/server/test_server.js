@@ -27,6 +27,17 @@ appPromise.then(function(app) {
         done();
       });
     });
+
+    it('should return the correct error when a paste is not found', function(done) {
+      request(app)
+        .get('/pastes/thisisafakekey')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(function(res) {
+            res.body.error.toLowerCase().should.containEql('not found');
+          })
+        .expect(404, done);
+    });
+
     it('should save and retrieve a single paste', function (done) {
       request(app)
         .post('/pastes')
