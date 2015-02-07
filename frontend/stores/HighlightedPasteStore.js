@@ -7,6 +7,10 @@ module.exports = Fluxxor.createStore({
     // cache highlighted results along with the language they were highlighted with
     this._highlightedPastes = Immutable.Map();
     this._initialDetectedLanguage = null;
+
+    this.bindActions(
+        constants.CREATE_NEW_DOCUMENT, this._clearAll
+    )
   },
 
   getDetectedLanguage() {
@@ -59,5 +63,10 @@ module.exports = Fluxxor.createStore({
 
   _setDetectedLanguage(language) {
     this._initialDetectedLanguage = language;
+  },
+
+  _clearAll() {
+    this._highlightedPastes = Immutable.Map();
+    this._initialDetectedLanguage = null;
   }
 });

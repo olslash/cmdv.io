@@ -11,7 +11,8 @@ module.exports = Fluxxor.createStore({
     this.bindActions(
         constants.PASTE_LOADED, this._onPasteLoaded,
         constants.PASTE_SAVED, this._onPasteSaved,
-        constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
+        constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
+        constants.CREATE_NEW_DOCUMENT, this._clear
     );
   },
 
@@ -44,6 +45,13 @@ module.exports = Fluxxor.createStore({
   _onPristinePasteModified(payload) {
     //todo: do something with payload.parentKey -- do I need it?
     this._unsavedRevisions = this._unsavedRevisions.push(payload.tempKey);
+
+    this._emitChange();
+  },
+
+  _clear() {
+    this._revisions = Immutable.List();
+    this._unsavedRevisions = Immutable.List();
 
     this._emitChange();
   }

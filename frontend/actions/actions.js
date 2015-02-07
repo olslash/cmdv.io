@@ -71,5 +71,9 @@ module.exports = {
 
   languageSelected(language) {
     this.dispatch(constants.LANGUAGE_SELECTED, { language })
+  },
+
+  createNewDocument() {
+   this.dispatch(constants.CREATE_NEW_DOCUMENT)
   }
 };

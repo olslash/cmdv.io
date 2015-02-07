@@ -11,7 +11,8 @@ module.exports = Fluxxor.createStore({
     this.bindActions(
         constants.PASTE_LOADING, this._onPasteLoading,
         constants.PASTE_LOADED, this._onPasteLoaded,
-        constants.PASTE_LOAD_FAILED, this._onPasteLoadFailed
+        constants.PASTE_LOAD_FAILED, this._onPasteLoadFailed,
+        constants.CREATE_NEW_DOCUMENT, this._clear
     );
   },
 
@@ -48,6 +49,13 @@ module.exports = Fluxxor.createStore({
   _onPasteLoadFailed(payload) {
     this._loadingPasteIDs = this._loadingPasteIDs.delete(payload.pasteID);
     this._failedLoadingPasteIDs = this._failedLoadingPasteIDs.add(payload.pasteID);
+
+    this._emitChange();
+  },
+
+  _clear() {
+    this._loadingPasteIDs = Immutable.Set();
+    this._failedLoadingPasteIDs = Immutable.Set();
 
     this._emitChange();
   }

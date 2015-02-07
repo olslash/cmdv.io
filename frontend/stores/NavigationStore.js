@@ -14,7 +14,8 @@ module.exports = Fluxxor.createStore({
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
       constants.PASTE_SAVED, this._onPasteSaved,
-      constants.LANGUAGE_SELECTED, this._onLanguageSelected
+      constants.LANGUAGE_SELECTED, this._onLanguageSelected,
+      constants.CREATE_NEW_DOCUMENT, this._clear
     )
   },
 
@@ -33,7 +34,6 @@ module.exports = Fluxxor.createStore({
   _setCurrentKey(pasteID, setHistory, replaceState) {
     // do not set history for the same paste twice -- unless we are doing a replaceState
     if(setHistory && (this._currentKey !== pasteID || replaceState)) {
-
       var newURLState = pasteID;
 
       if(this._currentLanguage !== null) {
@@ -41,8 +41,10 @@ module.exports = Fluxxor.createStore({
       }
 
       var method = replaceState ? 'replaceState' : 'pushState';
+      console.log(newURLState, method);
       history[method]({ pasteID }, null, newURLState);
     }
+
     this._currentKey = pasteID;
   },
 
@@ -102,6 +104,15 @@ module.exports = Fluxxor.createStore({
 
   _onLanguageSelected(payload) {
     this._setCurrentLanguage(payload.language);
+
+    this._emitChange();
+  },
+
+  _clear() {
+    // fixme: history is messed up if we do this.
+    this._currentLanguage = null;
+    this._currentKey = '';
+    history.pushState({pasteID: ''}, null, '/');
 
     this._emitChange();
   }

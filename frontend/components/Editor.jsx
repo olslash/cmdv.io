@@ -26,6 +26,7 @@ module.exports = Editor = React.createClass({
 
   componentDidMount() {
     this._setKeybindings();
+    this.scrollPosition = 0;
   },
 
   componentWillReceiveProps(nextProps) {
@@ -33,6 +34,20 @@ module.exports = Editor = React.createClass({
       isClean: nextProps.valueIsPristine,
       showEditor: !nextProps.valueIsPristine
     });
+  },
+
+  componentWillUpdate(nextProps, nextState) {
+    if(this.state.showEditor !== nextState.showEditor) {
+      var activeElement = this.state.showEditor ? this.refs['textArea'] : this.refs['codeBlock'];
+      this.scrollPosition = activeElement.getDOMNode().scrollTop;
+    }
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.showEditor !== prevState.showEditor) {
+      var activeElement = this.state.showEditor ? this.refs['textArea'] : this.refs['codeBlock'];
+      activeElement.getDOMNode().scrollTop = this.scrollPosition;
+    }
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -69,7 +84,7 @@ module.exports = Editor = React.createClass({
 
   _insertTabAtCursor() {
     if(!this.state.isClean) {
-      var textArea = this.refs.textArea.getDOMNode();
+      var textArea = this.refs['textArea'].getDOMNode();
       var start = textArea.selectionStart;
       var end = textArea.selectionEnd;
 
@@ -97,10 +112,10 @@ module.exports = Editor = React.createClass({
                               spellCheck="false"
                               autoFocus />
     } else {
-      contentArea = <pre className='contentArea'
+      contentArea = <pre ref='codeBlock'
+                         className='contentArea'
                          onClick={ this._handleEditorClick }>
-                      <code ref='codeBlock'
-                            dangerouslySetInnerHTML={{ __html: this.props.highlightedValue }} />
+                      <code dangerouslySetInnerHTML={{ __html: this.props.highlightedValue }} />
                     </pre>
     }
     return (

@@ -14,5 +14,7 @@ module.exports = {
   LANGUAGE_SELECTED: 'LANGUAGE_SELECTED', // user selects a language from the selectbox
 
   PRISTINE_PASTE_MODIFIED: 'PRISTINE_PASTE_MODIFIED', // called by editor when a clean paste is edited by the user
-  PASTE_MODIFIED: 'PASTE_MODIFIED' // called by editor when a paste is changed
+  PASTE_MODIFIED: 'PASTE_MODIFIED', // called by editor when a paste is changed
+
+  CREATE_NEW_DOCUMENT: 'CREATE_NEW_DOCUMENT' // 'new' button
 };

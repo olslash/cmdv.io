@@ -56,8 +56,13 @@ module.exports = Application = React.createClass({
 
     Mousetrap.bind('esc', () => {
       // esc to return from editor to highlighted version of a paste
+      // fixme: causes an invariant violation
       this.getFlux().actions.pasteSelected(this.state.currentKey, false, false);
     });
+  },
+
+  _reloadWindow() {
+    window.location = window.location.origin;
   },
 
   _saveCurrentPaste() {
@@ -97,7 +102,8 @@ module.exports = Application = React.createClass({
               <ButtonPanel>
                   <Button helpText="create a new document, starting a new revision chain."
                           src="public/images/icon-new.png"
-                          disabled={ true } />
+                          action={ this._reloadWindow }
+                          disabled={ false } />
                   <Button helpText="clone the current paste, starting a new revision chain."
                           src="public/images/icon-clone.png"
                           disabled={ true } />
