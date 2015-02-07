@@ -11,6 +11,16 @@ A revision-tracking pastebin service.
 ![cmdv.io]
 (http://i.imgur.com/o3DiOaK.png)
 
+### Running the tests
+
+> npm intall
+
+Edit `__tests__/test_server_config.js` with your db credentials, if needed.
+
+> npm test
+
+Tests run by default on port 9000; make sure nothing else is using that port, or the tests will fail.
+
 ### Running locally
 
 > cp server\_config.sample.js server_config.js
