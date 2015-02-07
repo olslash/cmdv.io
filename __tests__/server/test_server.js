@@ -149,7 +149,21 @@ appPromise.then(function(app) {
                     });
             });
         });
-    })
+    });
+
+    it('should ignore a parent revision ID if that id does not exist in the database', function (done) {
+      request(app)
+        .post('/pastes/thiskeydoesnotexist')
+        .type('text/plain')
+        .send('this is a paste!')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(function (res) {
+          res.body.revisions.should.not.containEql('thiskeydoesnotexist');
+          res.body.revisions.length.should.equal(1);
+          res.body.revisions.should.containEql(res.body.pasteID);
+        })
+        .expect(200, done);
+    });
   });
 
 });
