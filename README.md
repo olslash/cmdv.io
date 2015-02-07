@@ -40,9 +40,9 @@ You should see `app is listening on 8000`
 The server will run at `http://locahost:8000` by default.
 
 ### Features in progress
-* Final bugfixes related to highlighting
-* Keyboard shortcuts (for actions and text editing-- like making `tab` work properly)
-* Enable the clone/new buttons
+* Final bugfixes related to highlighting (done?)
+* Keyboard shortcuts (for actions and text editing-- like making `tab` work properly) (done)
+* Enable the clone/new buttons (almost done)
 * Make it isomorphic - with this comes functionality even when JS is disabled, and faster pageloads
 * Queryparams for highlighting lines or slices of a paste when sharing
-* CSS tweaks
+* CSS tweaks (see issue tracker)
