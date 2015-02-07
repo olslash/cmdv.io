@@ -1,5 +1,5 @@
 module.exports = {
-  dbURL: 'localhost/pasteclone/test',
+  dbURL: 'localhost/pasteclone-test',
   dbUser: '',
   dbPassword: '',
 
