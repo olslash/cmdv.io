@@ -54,7 +54,7 @@ pasteSchema.statics._generateUniqueKey = function(length) {
       })
 
       .catch(function (err) {
-        return this._generateUniqueKey(length)
+        this._generateUniqueKey(length).then(resolve)
       }.bind(this));
   }.bind(this));
 };
