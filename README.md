@@ -3,7 +3,7 @@ A revision-tracking pastebin service.
 
 ####Tech:
 * Node(io.js)/Express
-* React/Flux
+* React/Flux (Isomorphic)
 * MongoDB/Mongoose
 * ImmutableJS
 * Stylus
@@ -43,6 +43,6 @@ The server will run at `http://locahost:8000` by default.
 * Final bugfixes related to highlighting (done)
 * Keyboard shortcuts (for actions and text editing-- like making `tab` work properly) (done)
 * Enable the clone/new buttons (done)
-* Make it isomorphic - with this comes functionality even when JS is disabled, and faster pageloads (halfway there-- it's sending markup with the first response, but still needs to pre-load the paste data serverside)
+* Make it isomorphic - with this comes functionality even when JS is disabled, and faster pageloads (halfway there-- it's sending markup with the first response, which speeds up pageload 10x, but still needs to pre-load the paste data serverside)
 * Queryparams for highlighting lines or slices of a paste when sharing
 * CSS tweaks, mobile issues (see issue tracker)
