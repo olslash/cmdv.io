@@ -4,7 +4,7 @@ var Fluxxor = require('fluxxor'),
 
 
 module.exports = Fluxxor.createStore({
-  initialize: function () {
+  initialize() {
     this._loadingPasteIDs = Immutable.Set();
     this._failedLoadingPasteIDs = Immutable.Set();
 

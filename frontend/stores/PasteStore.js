@@ -4,7 +4,7 @@ var Fluxxor = require('fluxxor'),
     helpers   = require('../../helpers');
 
 module.exports = Fluxxor.createStore({
-  initialize: function() {
+  initialize() {
     this._pastes = Immutable.Map(); // pastes that have been retrieved from the server
     this._tempPastes = Immutable.Map(); // locally edited pastes that have not been saved
 
@@ -16,18 +16,6 @@ module.exports = Fluxxor.createStore({
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
     );
   },
-
-//  getState() {
-//    return Immutable.Map({
-//      _pastes:     this._pastes,
-//      _tempPastes: this._tempPastes
-//    });
-//  },
-//
-//  replaceState(newState) {
-//    this._pastes = newState.get('_pastes');
-//    this._tempPastes = newState.get('_tempPastes');
-//  },
 
   getPaste(pasteID) {
     // if not in the store, should be loaded by PASTE_SELECTED

@@ -5,7 +5,7 @@ var constants = require('../constants'),
 
 // NavigationStore
 module.exports = Fluxxor.createStore({
-  initialize: function () {
+  initialize() {
     this._state = Immutable.Map({
       currentKey: '',
       currentLanguage: null
