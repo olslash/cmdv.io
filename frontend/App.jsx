@@ -17,5 +17,5 @@ var React = require('react/addons'),
 React.initializeTouchEvents(true);
 //console.log('app is bootstrapping now!');
 //flux.actions.pageLoaded(document.location.pathname);
-console.log('rendering');
+
 React.render(<Index/>, document);
