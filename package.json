@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test PORT=9000 node_modules/.bin/mocha __tests__ --recursive --harmony",
-    "build": "NODE_ENV=production node_modules/.bin/browserify -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js && node_modules/.bin/uglifyjs frontend/public/app.js -c -m -o frontend/public/app.min.js ; node_modules/.bin/stylus frontend/stylesheets/index.styl -o frontend/public",
+    "build": "NODE_ENV=production node_modules/.bin/browserify -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js && node_modules/.bin/uglifyjs frontend/public/app.js --drop-console --dead_code -c -m -o frontend/public/app.min.js ; node_modules/.bin/stylus frontend/stylesheets/index.styl -o frontend/public",
     "watch": "node_modules/.bin/watchify -v -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js",
     "watchcss": "node_modules/.bin/stylus frontend/stylesheets/index.styl -w -o frontend/public",
     "start": "NODE_ENV=dev node_modules/.bin/nodemon server/index.js"
