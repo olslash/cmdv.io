@@ -1,6 +1,6 @@
 var Fluxxor   = require('fluxxor'),
     React     = require('react/addons'),
-    hljs      = require('highlight.js');
+    hljs = require('../public/lib/hljs');
 
 var Editor        = require('./Editor.jsx'),
     ButtonPanel   = require('./subcomponents/ButtonPanel.jsx'),

@@ -1,7 +1,7 @@
 var Fluxxor = require('fluxxor'),
     Immutable = require('immutable'),
     constants = require('../constants'),
-    hljs = require('highlight.js');
+    hljs = require('../public/lib/hljs');
 
 module.exports = Fluxxor.createStore({
   initialize() {
