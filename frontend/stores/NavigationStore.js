@@ -17,12 +17,12 @@ module.exports = Fluxxor.createStore({
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
       constants.PASTE_SAVED, this._onPasteSaved,
-      constants.LANGUAGE_SELECTED, this._onLanguageSelected
+      constants.LANGUAGE_SELECTED, this._onLanguageSelected,
+      constants.CLONE_PASTE, this._onClonePaste
     )
   },
 
   _emitChange() {
-    this._updateURL();
     this.emit('change');
   },
 
@@ -33,6 +33,7 @@ module.exports = Fluxxor.createStore({
   replaceState(newState) {
     this._state = newState;
 
+    this._updateURL();
     this._emitChange();
   },
 
@@ -44,10 +45,12 @@ module.exports = Fluxxor.createStore({
     return this._state.get('currentLanguage');
   },
 
-  _updateURL() {
+  _updateURL(options) {
     // maintain the correct URL across state transitions
     var key = this.getCurrentKey();
-    if(flux.stores['PasteStore'].getPaste(key).isClean) { //ony set url for pastes that have been saved
+    if(options && options.clear) {
+      window.history.replaceState(null, null, '/');
+    } else if(flux.stores['PasteStore'].getPaste(key).isClean) { //ony set url for pastes that have been saved
       var language = this.getCurrentLanguage();
       var newURL = key + (language ? '.' + language : '');
       window.history.replaceState(null, null, newURL);
@@ -74,6 +77,7 @@ module.exports = Fluxxor.createStore({
       this._setCurrentKey(routeComponents[1])
     }
 
+    this._updateURL();
     this._emitChange();
   },
 
@@ -85,6 +89,7 @@ module.exports = Fluxxor.createStore({
         if (detectedLanguage !== null) {
           this._setCurrentLanguage(detectedLanguage);
 
+          this._updateURL();
           this._emitChange();
         }
       });
@@ -92,11 +97,10 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteSelected(payload) {
-    if(payload.pasteID !== this.getCurrentKey()) {
-      this._setCurrentKey(payload.pasteID);
+    this._setCurrentKey(payload.pasteID);
 
-      this._emitChange();
-    }
+    this._updateURL();
+    this._emitChange();
   },
 
   _onPristinePasteModified(payload) {
@@ -110,12 +114,22 @@ module.exports = Fluxxor.createStore({
       this._setCurrentKey(payload.pasteID);
     }
 
+    this._updateURL();
     this._emitChange();
   },
 
   _onLanguageSelected(payload) {
     this._setCurrentLanguage(payload.language);
 
+    this._updateURL();
+    this._emitChange();
+  },
+
+  _onClonePaste(payload) {
+    this._setCurrentKey(payload.tempKey);
+    this._setCurrentLanguage(null);
+
+    this._updateURL({clear: true});
     this._emitChange();
   }
 });

@@ -100,7 +100,8 @@ module.exports = Application = React.createClass({
                           disabled={ true } />
                   <Button helpText="clone the current paste, starting a new revision chain."
                           src="public/images/icon-clone.png"
-                          disabled={ true } />
+                          action={ this.getFlux().actions.clonePaste.bind(null, this.state.currentKey) }
+                          disabled={ false } />
                   <Button helpText="save the current paste (assigns a key and disables further editing)."
                           src="public/images/icon-save.png"
                           action={ this._saveCurrentPaste }

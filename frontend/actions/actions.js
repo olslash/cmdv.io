@@ -1,7 +1,6 @@
 var config = require('../../frontend_config.js'),
+    helpers = require('../../helpers'),
     constants = require('../constants');
-
-var uuidCounter = 0;
 
 module.exports = {
   savePaste(tempID, parentID, pasteContent) {
@@ -59,7 +58,7 @@ module.exports = {
   },
 
   pristinePasteModified(parentKey, pasteContent) {
-    var tempKey = `(unsaved) ${ ++uuidCounter }`;
+    var tempKey = helpers.makeTempKey();
     this.dispatch(constants.PRISTINE_PASTE_MODIFIED, { parentKey, tempKey, pasteContent });
   },
 
@@ -69,5 +68,10 @@ module.exports = {
 
   languageSelected(language) {
     this.dispatch(constants.LANGUAGE_SELECTED, { language })
+  },
+
+  clonePaste(pasteID) {
+    var tempKey = helpers.makeTempKey();
+    this.dispatch(constants.CLONE_PASTE, {pasteID, tempKey});
   }
 };
