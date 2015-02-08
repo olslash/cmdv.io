@@ -60,6 +60,16 @@ module.exports = Application = React.createClass({
       // esc to return from editor to highlighted version of a paste
       this.getFlux().actions.pasteSelected(this.state.currentKey);
     });
+    // fixme: why do the below cause invariants, when clicking a button that does the exact same thing work fine?
+//    Mousetrap.bind(['meta+n', 'ctrl+n'], (e) => { // meta+n may not work
+//      e.preventDefault();
+//      this.getFlux().actions.newPaste();
+//    });
+//
+//    Mousetrap.bind(['meta+d', 'ctrl+d'], (e) => {
+//      e.preventDefault();
+//      this.getFlux().actions.clonePaste(this.state.currentKey);
+//    });
   },
 
   _saveCurrentPaste() {
