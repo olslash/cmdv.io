@@ -14,7 +14,8 @@ module.exports = Fluxxor.createStore({
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PASTE_MODIFIED, this._onPasteModified,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
-      constants.CLONE_PASTE, this._onClonePaste
+      constants.CLONE_PASTE, this._onClonePaste,
+      constants.NEW_PASTE, this._onNewPaste
     );
   },
 
@@ -79,6 +80,13 @@ module.exports = Fluxxor.createStore({
     this._pastes = Immutable.Map();
     this._tempPastes = Immutable.Map();
     this._tempPastes = this._tempPastes.set(payload.tempKey, contentAtOriginalKey);
+    this._emitChange();
+  },
+
+  _onNewPaste(payload) {
+    this._pastes = Immutable.Map();
+    this._tempPastes = Immutable.Map();
+    this._tempPastes = this._tempPastes.set(payload.tempKey, '');
     this._emitChange();
   }
 });

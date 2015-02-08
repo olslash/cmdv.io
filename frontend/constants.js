@@ -15,5 +15,6 @@ module.exports = {
 
   PRISTINE_PASTE_MODIFIED: 'PRISTINE_PASTE_MODIFIED', // called by editor when a clean paste is edited by the user
   PASTE_MODIFIED: 'PASTE_MODIFIED', // called by editor when a paste is changed
-  CLONE_PASTE: 'CLONE_PASTE' // called by editor when 'clone' button is clicked
+  CLONE_PASTE: 'CLONE_PASTE', // called by editor when 'clone' button is clicked
+  NEW_PASTE: 'NEW_PSTE' // called by editor when 'new' button is clicked
 };

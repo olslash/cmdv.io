@@ -97,7 +97,8 @@ module.exports = Application = React.createClass({
               <ButtonPanel>
                   <Button helpText="create a new document, starting a new revision chain."
                           src="public/images/icon-new.png"
-                          disabled={ true } />
+                          action={ this.getFlux().actions.newPaste }
+                          disabled={ false } />
                   <Button helpText="clone the current paste, starting a new revision chain."
                           src="public/images/icon-clone.png"
                           action={ this.getFlux().actions.clonePaste.bind(null, this.state.currentKey) }

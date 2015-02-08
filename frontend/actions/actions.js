@@ -73,5 +73,10 @@ module.exports = {
   clonePaste(pasteID) {
     var tempKey = helpers.makeTempKey();
     this.dispatch(constants.CLONE_PASTE, {pasteID, tempKey});
+  },
+
+  newPaste() {
+    var tempKey = helpers.makeTempKey();
+    this.dispatch(constants.NEW_PASTE, { tempKey });
   }
 };

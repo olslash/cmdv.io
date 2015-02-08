@@ -18,7 +18,8 @@ module.exports = Fluxxor.createStore({
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
       constants.PASTE_SAVED, this._onPasteSaved,
       constants.LANGUAGE_SELECTED, this._onLanguageSelected,
-      constants.CLONE_PASTE, this._onClonePaste
+      constants.CLONE_PASTE, this._onClonePaste,
+      constants.NEW_PASTE, this._onClonePaste // same as clone, here
     )
   },
 
