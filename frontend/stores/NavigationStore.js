@@ -59,6 +59,7 @@ module.exports = Fluxxor.createStore({
   },
 
   _setCurrentKey(pasteID) {
+    console.log('setting currentkey to', pasteID);
     this._state = this._state.set('currentKey', pasteID);
   },
 

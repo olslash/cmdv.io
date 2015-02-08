@@ -1,7 +1,9 @@
 var express = require('express'),
     Promise = require('bluebird'),
     cors = require('express-cors'),
+    favicon = require('serve-favicon'),
     compression = require('compression');
+
 
 require('node-jsx').install();
 
@@ -20,10 +22,14 @@ var appPromise = new Promise(function (resolve, reject) {
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
 
+  app.use(favicon(__dirname + '/../frontend/public/favicon.ico'));
+
   app.use(compression());
   app.use('/public', express.static(__dirname + '/../frontend/public'));
   app.use('/', require('./controllers/index'));
   app.use('/pastes', require('./controllers/pastes'));
+
+
 
   app.listen(port, function() {
     console.log("app is listening on " + port);

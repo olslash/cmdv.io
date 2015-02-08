@@ -42,9 +42,9 @@ module.exports = Application = React.createClass({
   },
 
   componentDidMount() {
-    if(this.state.currentKey.length > 0) {
-      this.getFlux().actions.loadPaste(this.state.currentKey)
-    }
+//    if(this.state.currentKey.length > 0) {
+//      this.getFlux().actions.loadPaste(this.state.currentKey)
+//    }
 
     this._setKeybindings();
   },
