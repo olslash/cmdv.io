@@ -14,11 +14,7 @@ flux.on('dispatch', function (type, payload) {
   console.log("[Dispatch]", type, payload);
 });
 
-window.addEventListener('popstate', function (e) {
-
-});
-
-
+React.initializeTouchEvents(true);
 
 flux.actions.pageLoaded(document.location.pathname);
 React.render(<Application flux={flux} />, document.getElementById("app"));
