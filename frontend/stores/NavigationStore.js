@@ -22,6 +22,7 @@ module.exports = Fluxxor.createStore({
   },
 
   _emitChange() {
+    this._updateURL();
     this.emit('change');
   },
 
@@ -31,7 +32,6 @@ module.exports = Fluxxor.createStore({
 
   replaceState(newState) {
     this._state = newState;
-//    this._updateURL();
 
     this._emitChange();
   },
@@ -47,9 +47,11 @@ module.exports = Fluxxor.createStore({
   _updateURL() {
     // maintain the correct URL across state transitions
     var key = this.getCurrentKey();
-    var language = this.getCurrentLanguage();
-    var newURL = key + (language ? language : '');
-    window.history.replaceState(null, null, newURL);
+    if(flux.stores['PasteStore'].getPaste(key).isClean) { //ony set url for pastes that have been saved
+      var language = this.getCurrentLanguage();
+      var newURL = key + (language ? '.' + language : '');
+      window.history.replaceState(null, null, newURL);
+    }
   },
 
   _setCurrentKey(pasteID) {
