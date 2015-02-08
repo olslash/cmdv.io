@@ -20,11 +20,12 @@ module.exports = Editor = React.createClass({
   getInitialState() {
     return {
       isClean: this.props.valueIsPristine,
-      showEditor: false
+      showEditor: true
     };
   },
 
   componentDidMount() {
+    this.refs['textArea'].getDOMNode().focus();
     this._setKeybindings();
   },
 
@@ -69,7 +70,7 @@ module.exports = Editor = React.createClass({
 
   _insertTabAtCursor() {
     if(!this.state.isClean) {
-      var textArea = this.refs.textArea.getDOMNode();
+      var textArea = this.refs['textArea'].getDOMNode();
       var start = textArea.selectionStart;
       var end = textArea.selectionEnd;
 
