@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production node_modules/.bin/browserify -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js && node_modules/.bin/uglifyjs frontend/public/app.js --drop-console --dead_code -c -m -o frontend/public/app.min.js ; node_modules/.bin/stylus frontend/stylesheets/index.styl -o frontend/public",
     "watch": "node_modules/.bin/watchify -v -t [reactify --es6] frontend/App.jsx -o frontend/public/app.js",
     "watchcss": "node_modules/.bin/stylus frontend/stylesheets/index.styl -w -o frontend/public",
-    "start": "NODE_ENV=dev node_modules/.bin/nodemon server/index.js"
+    "start": "NODE_ENV=dev node_modules/.bin/nodemon --harmony --harmony_arrow_functions server"
   },
   "author": "Mitch Robb",
   "license": "ISC",
@@ -20,9 +20,11 @@
     "express": "^4.10.6",
     "express-cors": "0.0.3",
     "fluxxor": "^1.5.1",
+    "highlight.js": "^8.4.0",
     "immutable": "^3.4.1",
     "mongoose": "^3.8.21",
     "mousetrap": "^1.4.6",
+    "node-jsx": "^0.12.4",
     "react": "^0.12.2"
   },
   "devDependencies": {
