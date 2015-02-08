@@ -6,8 +6,10 @@ var constants = require('../constants'),
 // NavigationStore
 module.exports = Fluxxor.createStore({
   initialize: function () {
-    this._currentKey = '';
-    this._currentLanguage = null;
+    this._state = Immutable.Map({
+      currentKey: '',
+      currentLanguage: null
+    });
 
     this.bindActions(
       constants.PAGE_LOADED, this._onPageLoad,
@@ -24,34 +26,38 @@ module.exports = Fluxxor.createStore({
   },
 
   getState() {
-    return Immutable.Map({
-      _currentKey:      this._currentKey,
-      _currentLanguage: this._currentLanguage
-    });
+    return this._state;
   },
 
   replaceState(newState) {
-    this._currentKey = newState.get('_currentKey');
-    this._currentLanguage = newState.get('_currentLanguage');
+    this._state = newState;
+//    this._updateURL();
 
     this._emitChange();
   },
 
   getCurrentKey() {
-    return this._currentKey;
+    return this._state.get('currentKey');
   },
 
   getCurrentLanguage() {
-    return this._currentLanguage;
+    return this._state.get('currentLanguage');
+  },
+
+  _updateURL() {
+    // maintain the correct URL across state transitions
+    var key = this.getCurrentKey();
+    var language = this.getCurrentLanguage();
+    var newURL = key + (language ? language : '');
+    window.history.replaceState(null, null, newURL);
   },
 
   _setCurrentKey(pasteID) {
-    this._currentKey = pasteID;
+    this._state = this._state.set('currentKey', pasteID);
   },
 
   _setCurrentLanguage(language) {
-    this._currentLanguage = language;
-    this._setCurrentKey(this._currentKey); // force url update with type extension
+    this._state = this._state.set('currentLanguage', language);
   },
 
   _onPageLoad(payload) {
@@ -61,7 +67,7 @@ module.exports = Fluxxor.createStore({
 
     if(routeComponents !== null) {
       if(routeComponents[2].length > 0) {
-        this._currentLanguage = routeComponents[2];
+        this._setCurrentLanguage(routeComponents[2]);
       }
       this._setCurrentKey(routeComponents[1])
     }
@@ -70,7 +76,7 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteLoaded() {
-    if(this._currentLanguage === null) {
+    if(this.getCurrentLanguage() === null) {
       this.waitFor(['HighlightedPasteStore'], function (HighlightedPasteStore) {
         var detectedLanguage = HighlightedPasteStore.getDetectedLanguage();
 
@@ -84,9 +90,11 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteSelected(payload) {
-    this._setCurrentKey(payload.pasteID);
+    if(payload.pasteID !== this.getCurrentKey()) {
+      this._setCurrentKey(payload.pasteID);
 
-    this._emitChange();
+      this._emitChange();
+    }
   },
 
   _onPristinePasteModified(payload) {
@@ -96,7 +104,7 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteSaved(payload) {
-    if (this._currentKey === payload.tempID) {
+    if (this.getCurrentKey() === payload.tempID) {
       this._setCurrentKey(payload.pasteID);
     }
 

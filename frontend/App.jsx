@@ -15,9 +15,7 @@ flux.on('dispatch', function (type, payload) {
 });
 
 window.addEventListener('popstate', function (e) {
-  if(e.state !== undefined) {
-    flux.actions.pasteSelected(e.state.pasteID);
-  }
+
 });
 
 
