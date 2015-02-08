@@ -123,4 +123,3 @@ module.exports = Application = React.createClass({
     );
   }
 });
-// bug: when a highlighted paste is displayed, and you click to a new paste on the sidebar, and that paste fails to load, the pe
