@@ -3,8 +3,8 @@ var PasteStore            = require('./PasteStore'),
     PasteLoadingStore     = require('./PasteLoadingStore'),
     PasteRevisionsStore   = require('./PasteRevisionsStore'),
     PasteSavingStore      = require('./PasteSavingStore'),
-    NavigationStore       = require('./NavigationStore'),
-    HistoryManager        = require('./HistoryManager');
+    NavigationStore       = require('./NavigationStore');
+//    HistoryManager        = require('./HistoryManager';
 
 module.exports = {
   PasteStore: new PasteStore(),
@@ -12,6 +12,6 @@ module.exports = {
   PasteLoadingStore: new PasteLoadingStore(),
   PasteRevisionsStore: new PasteRevisionsStore(),
   PasteSavingStore: new PasteSavingStore(),
-  NavigationStore: new NavigationStore(),
-  HistoryManager: new HistoryManager()
+  NavigationStore: new NavigationStore()
+//  HistoryManager: new HistoryManager()
 };
