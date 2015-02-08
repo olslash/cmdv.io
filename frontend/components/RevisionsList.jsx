@@ -24,9 +24,9 @@ module.exports = RevisionsList = React.createClass({
     var loading = this.props.loadingRevisions.toObject();
     var failedLoading = this.props.failedLoadingRevisions.toObject();
 
-    function listItem(text, classList, setBrowserHistory) {
+    function listItem(text, classList) {
       return (
-        <li onClick  ={ pasteSelectedAction.bind(null, text, setBrowserHistory, false) }
+        <li onClick  ={ pasteSelectedAction.bind(null, text) }
             className={ classList }
             key      ={ text }>
 
@@ -46,7 +46,7 @@ module.exports = RevisionsList = React.createClass({
         active: isActive
       });
 
-      return listItem(pasteID, classes, true);
+      return listItem(pasteID, classes);
     });
 
     var unsavedItems = this.props.unsavedRevisions.toJS().map( pasteID => {
@@ -56,7 +56,7 @@ module.exports = RevisionsList = React.createClass({
         unsaved: true
       });
 
-      return listItem(pasteID, classes, false)
+      return listItem(pasteID, classes )
     } );
 
     var hideHeader = currentItems.length === 0 && unsavedItems.length === 0;

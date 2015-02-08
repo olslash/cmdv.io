@@ -56,7 +56,7 @@ module.exports = Application = React.createClass({
 
     Mousetrap.bind('esc', () => {
       // esc to return from editor to highlighted version of a paste
-      this.getFlux().actions.pasteSelected(this.state.currentKey, false, false);
+      this.getFlux().actions.pasteSelected(this.state.currentKey);
     });
   },
 

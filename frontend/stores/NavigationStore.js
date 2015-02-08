@@ -1,6 +1,7 @@
 var Fluxxor = require('fluxxor');
 
-var constants = require('../constants');
+var constants = require('../constants'),
+    Immutable = require('immutable');
 
 // NavigationStore
 module.exports = Fluxxor.createStore({
@@ -22,6 +23,20 @@ module.exports = Fluxxor.createStore({
     this.emit('change');
   },
 
+  getState() {
+    return Immutable.Map({
+      _currentKey:      this._currentKey,
+      _currentLanguage: this._currentLanguage
+    });
+  },
+
+  replaceState(newState) {
+    this._currentKey = newState.get('_currentKey');
+    this._currentLanguage = newState.get('_currentLanguage');
+
+    this._emitChange();
+  },
+
   getCurrentKey() {
     return this._currentKey;
   },
@@ -30,25 +45,13 @@ module.exports = Fluxxor.createStore({
     return this._currentLanguage;
   },
 
-  _setCurrentKey(pasteID, setHistory, replaceState) {
-    // do not set history for the same paste twice -- unless we are doing a replaceState
-    if(setHistory && (this._currentKey !== pasteID || replaceState)) {
-
-      var newURLState = pasteID;
-
-      if(this._currentLanguage !== null) {
-        newURLState += ('.' + this._currentLanguage);
-      }
-
-      var method = replaceState ? 'replaceState' : 'pushState';
-      history[method]({ pasteID }, null, newURLState);
-    }
+  _setCurrentKey(pasteID) {
     this._currentKey = pasteID;
   },
 
   _setCurrentLanguage(language) {
     this._currentLanguage = language;
-    this._setCurrentKey(this._currentKey, true, true); // force url update with type extension
+    this._setCurrentKey(this._currentKey); // force url update with type extension
   },
 
   _onPageLoad(payload) {
@@ -60,7 +63,7 @@ module.exports = Fluxxor.createStore({
       if(routeComponents[2].length > 0) {
         this._currentLanguage = routeComponents[2];
       }
-      this._setCurrentKey(routeComponents[1], true, true)
+      this._setCurrentKey(routeComponents[1])
     }
 
     this._emitChange();
@@ -81,20 +84,20 @@ module.exports = Fluxxor.createStore({
   },
 
   _onPasteSelected(payload) {
-    this._setCurrentKey(payload.pasteID, payload.setHistory, payload.replaceState);
+    this._setCurrentKey(payload.pasteID);
 
     this._emitChange();
   },
 
   _onPristinePasteModified(payload) {
-    this._setCurrentKey(payload.tempKey, false);
+    this._setCurrentKey(payload.tempKey);
 
     this._emitChange();
   },
 
   _onPasteSaved(payload) {
     if (this._currentKey === payload.tempID) {
-      this._setCurrentKey(payload.pasteID, true);
+      this._setCurrentKey(payload.pasteID);
     }
 
     this._emitChange();

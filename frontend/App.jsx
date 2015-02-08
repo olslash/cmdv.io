@@ -7,7 +7,7 @@ var React = require('react/addons'),
 
 
 var flux = new Fluxxor.Flux(stores, actions);
-//window.flux = flux;
+window.flux = flux;
 
 // log dispatches
 flux.on('dispatch', function (type, payload) {
@@ -16,9 +16,11 @@ flux.on('dispatch', function (type, payload) {
 
 window.addEventListener('popstate', function (e) {
   if(e.state !== undefined) {
-    flux.actions.pasteSelected(e.state.pasteID, true, true);
+    flux.actions.pasteSelected(e.state.pasteID);
   }
 });
+
+
 
 flux.actions.pageLoaded(document.location.pathname);
 React.render(<Application flux={flux} />, document.getElementById("app"));
