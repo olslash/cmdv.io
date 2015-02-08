@@ -51,7 +51,7 @@ module.exports = Fluxxor.createStore({
     var key = this.getCurrentKey();
     if(options && options.clear) {
       window.history.replaceState(null, null, '/');
-    } else if(flux.stores['PasteStore'].getPaste(key).isClean) { //ony set url for pastes that have been saved
+    } else if(this.flux.stores['PasteStore'].getPaste(key).isClean) { //ony set url for pastes that have been saved
       var language = this.getCurrentLanguage();
       var newURL = key + (language ? '.' + language : '');
       window.history.replaceState(null, null, newURL);

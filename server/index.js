@@ -3,6 +3,8 @@ var express = require('express'),
     cors = require('express-cors'),
     compression = require('compression');
 
+require('node-jsx').install();
+
 var app = express();
 var port = process.env.PORT || 8000;
 

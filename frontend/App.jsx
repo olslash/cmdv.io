@@ -3,19 +3,19 @@ var React = require('react/addons'),
     constants = require('./constants'),
     actions = require('./actions/actions'),
     stores = require('./stores'),
-    Application = require('./components/Application.jsx');
+    Index = require('./Index.jsx');
 
 
-var flux = new Fluxxor.Flux(stores, actions);
-window.flux = flux;
+//var flux = new Fluxxor.Flux(stores, actions);
+//window.flux = flux;
 
 // log dispatches
-flux.on('dispatch', function (type, payload) {
-  console.log("[Dispatch]", type, payload);
-});
+//flux.on('dispatch', function (type, payload) {
+//  console.log("[Dispatch]", type, payload);
+//});
 
 React.initializeTouchEvents(true);
-
-flux.actions.pageLoaded(document.location.pathname);
-React.render(<Application flux={flux} />, document.getElementById("app"));
-
+//console.log('app is bootstrapping now!');
+//flux.actions.pageLoaded(document.location.pathname);
+console.log('rendering');
+React.render(<Index/>, document);

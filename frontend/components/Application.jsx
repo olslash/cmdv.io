@@ -1,12 +1,14 @@
 var Fluxxor   = require('fluxxor'),
-    React     = require('react/addons');
+    React     = require('react/addons'),
+    hljs      = require('highlight.js');
 
 var Editor        = require('./Editor.jsx'),
-    ToolTip       = require('./subcomponents/Tooltip.jsx'),
     ButtonPanel   = require('./subcomponents/ButtonPanel.jsx'),
     Button        = require('./subcomponents/Button.jsx'),
     Footer        = require('./Footer.jsx'),
+//    ToolTip = require('./subcomponents/Tooltip.jsx'), // fixme: make this more react-y; do not rely on document object
     RevisionsList = require('./RevisionsList.jsx');
+
 
 var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin,
@@ -84,8 +86,6 @@ module.exports = Application = React.createClass({
 
     return (
         <div id="main-container">
-          <ToolTip />
-
           <Editor valueLink           = { pasteData.pasteContent }
                   onDirty             = { this.getFlux().actions.pristinePasteModified
                                                                 .bind(null, this.state.currentKey) }
