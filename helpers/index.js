@@ -1,3 +1,5 @@
+var uuidCounter = 0;
+
 module.exports = helpers = {
   generateKey: function(length) {
       // alternate vowel and consonant
@@ -26,5 +28,9 @@ module.exports = helpers = {
     window.setTimeout(function() {
       f.apply(context, args);
     }, 0);
+  },
+
+  makeTempKey: function() {
+    return `(unsaved) ${ ++uuidCounter }`;
   }
 };

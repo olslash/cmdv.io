@@ -19,7 +19,7 @@ window.addEventListener('popstate', function (e) {
     flux.actions.pasteSelected(e.state.pasteID, true, true);
   }
 });
-
+React.initializeTouchEvents(true);
 flux.actions.pageLoaded(document.location.pathname);
 React.render(<Application flux={flux} />, document.getElementById("app"));
 

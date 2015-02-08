@@ -13,7 +13,8 @@ module.exports = Fluxxor.createStore({
       constants.PASTE_SAVED, this._onPasteSaved,
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PASTE_MODIFIED, this._onPasteModified,
-      constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified
+      constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
+      constants.CLONE_PASTE, this._onClonePaste
     );
   },
 
@@ -71,6 +72,16 @@ module.exports = Fluxxor.createStore({
   _onPristinePasteModified(payload) {
     // fixme: can this be rolled into _onPasteModified?
     this._tempPastes = this._tempPastes.set(payload.tempKey, payload.pasteContent);
+
+    this._emitChange();
+  },
+
+  _onClonePaste(payload) {
+    var contentAtOriginalKey = this.getPaste(payload.pasteID).pasteContent;
+
+    this._pastes = Immutable.Map();
+    this._tempPastes = Immutable.Map();
+    this._tempPastes = this._tempPastes.set(payload.tempKey, contentAtOriginalKey);
 
     this._emitChange();
   }

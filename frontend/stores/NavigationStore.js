@@ -14,7 +14,8 @@ module.exports = Fluxxor.createStore({
       constants.PASTE_SELECTED, this._onPasteSelected,
       constants.PRISTINE_PASTE_MODIFIED, this._onPristinePasteModified,
       constants.PASTE_SAVED, this._onPasteSaved,
-      constants.LANGUAGE_SELECTED, this._onLanguageSelected
+      constants.LANGUAGE_SELECTED, this._onLanguageSelected,
+      constants.CLONE_PASTE, this._onClonePaste
     )
   },
 
@@ -25,11 +26,22 @@ module.exports = Fluxxor.createStore({
   getCurrentKey() {
     return this._currentKey;
   },
-
+  /**
+   *
+   * @returns {string}
+   * @pubic
+   */
   getCurrentLanguage() {
     return this._currentLanguage;
   },
-
+  /**
+   *
+   * @param {string} pasteID
+   * @param {boolean} setHistory - Also set this change on the browser history stack
+   * @param {boolean} replaceState - Use replaceState instead of pushState -- overwrite the current URL entry instead of pushing a new entry
+   * @returns {null}
+   * @private
+   */
   _setCurrentKey(pasteID, setHistory, replaceState) {
     // do not set history for the same paste twice -- unless we are doing a replaceState
     if(setHistory && (this._currentKey !== pasteID || replaceState)) {
@@ -102,6 +114,15 @@ module.exports = Fluxxor.createStore({
 
   _onLanguageSelected(payload) {
     this._setCurrentLanguage(payload.language);
+
+    this._emitChange();
+  },
+
+  _onClonePaste(payload) {
+//    this._setCurrentKey(payload.tempKey, true, false);
+    this._currentKey = payload.tempKey;
+    this._currentLanguage = null;
+    window.history.pushState({pasteID: ''}, null, '/');
 
     this._emitChange();
   }
