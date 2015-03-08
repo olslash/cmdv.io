@@ -8,6 +8,7 @@ hljs.registerLanguage('cs', require('./languages/cs'));
 hljs.registerLanguage('css', require('./languages/css'));
 hljs.registerLanguage('diff', require('./languages/diff'));
 hljs.registerLanguage('fortran', require('./languages/fortran'));
+hljs.registerLanguage('haskell', require('./languages/haskell'));
 hljs.registerLanguage('http', require('./languages/http'));
 hljs.registerLanguage('ini', require('./languages/ini'));
 hljs.registerLanguage('java', require('./languages/java'));
