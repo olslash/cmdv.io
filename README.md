@@ -1,7 +1,7 @@
 # cmdv.io
 A revision-tracking pastebin service.
 
-####Tech:
+#### Tech:
 * Node(io.js)/Express
 * React/Flux (Isomorphic)
 * MongoDB/Mongoose
@@ -13,7 +13,7 @@ A revision-tracking pastebin service.
 
 ### Running the tests
 
-> npm intall
+> npm install
 
 Edit `__tests__/test_server_config.js` with your db credentials, if needed.
 
