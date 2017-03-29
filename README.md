@@ -8,8 +8,7 @@ A revision-tracking pastebin service.
 * ImmutableJS
 * Stylus
 
-![cmdv.io]
-(http://i.imgur.com/o3DiOaK.png)
+![cmdv.io](http://i.imgur.com/o3DiOaK.png)
 
 ### Running the tests
 
